@@ -23,6 +23,21 @@ namespace kauaicapstone.Data
         {
             // NOTE: DON'T FORGET THIS LINE
             base.OnModelCreating(modelBuilder);
+            //Restricts the delete on LegendViewLocations
+            modelBuilder.Entity<Legend>()
+                .HasMany(l => l.LegendViewLocations)
+                .WithOne(o => o.Legend)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Comment>()
+               .Property(b => b.DatePosted)
+               .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<ViewLocation>()
+               .HasMany(v => v.LegendViewLocations)
+               .WithOne(vl => vl.ViewLocation)
+               .OnDelete(DeleteBehavior.Restrict);
+
 
             // Create a new user for Identity Framework
             ApplicationUser admin = new ApplicationUser
@@ -135,6 +150,8 @@ namespace kauaicapstone.Data
                   DatePosted = new DateTime(2019, 7, 29)
                 }
                 );
+
+            
            
         }
          

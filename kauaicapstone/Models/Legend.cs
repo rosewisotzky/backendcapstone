@@ -25,6 +25,6 @@ namespace kauaicapstone.Models
         public string ImageURL { get; set; }
         [Required]
         [Display(Name = "Viewing Points")]
-        public ICollection<LegendViewLocation> viewLocations { get; set; }
+        public ICollection<LegendViewLocation> LegendViewLocations { get; set; }
     }
 }

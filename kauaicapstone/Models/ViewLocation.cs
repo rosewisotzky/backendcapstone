@@ -18,7 +18,7 @@ namespace kauaicapstone.Models
         public string UserId { get; set; }
         [Required]
         public ApplicationUser User { get; set; }
-        public ICollection<Legend> Legends { get; set; }
+        public ICollection<LegendViewLocation> LegendViewLocations { get; set; }
         public ICollection<Comment> Comments { get; set; }
     }
 }
