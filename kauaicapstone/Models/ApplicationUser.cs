@@ -13,6 +13,7 @@ namespace kauaicapstone.Models
         {
 
         }
+        
         [Required]
         public string FirstName { get; set; }
         [Required]

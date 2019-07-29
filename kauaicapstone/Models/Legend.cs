@@ -19,7 +19,7 @@ namespace kauaicapstone.Models
         [Required]
         public bool IsApproved { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         public ApplicationUser User { get; set; }
         public string ImageURL { get; set; }
