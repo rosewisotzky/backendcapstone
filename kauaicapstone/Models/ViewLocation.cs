@@ -9,16 +9,16 @@ namespace kauaicapstone.Models
     public class ViewLocation
     {
         [Required]
-        public int LocationId { get; set; }
+        public int ViewLocationId { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
         public string ViewPointAddress { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         public ApplicationUser User { get; set; }
-        public ICollection<Legend> Legends { get; set; }
+        public ICollection<LegendViewLocation> LegendViewLocations { get; set; }
         public ICollection<Comment> Comments { get; set; }
     }
 }
