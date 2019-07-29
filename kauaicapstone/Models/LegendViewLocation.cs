@@ -8,6 +8,7 @@ namespace kauaicapstone.Models
 {
     public class LegendViewLocation
     { 
+        [Key]
         [Required]
         public int LegendViewLocationId { get; set; }
         [Required]

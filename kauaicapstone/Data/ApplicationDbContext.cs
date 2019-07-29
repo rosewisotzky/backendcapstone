@@ -14,11 +14,11 @@ namespace kauaicapstone.Data
             : base(options)
         {
         }
-        DbSet<ApplicationUser> ApplicationUser { get; set; }
-        DbSet<Comment> Comment { get; set; }
-        DbSet<Legend> Legend { get; set; }
-        DbSet<ViewLocation> ViewLocation { get; set; }
-        DbSet<LegendViewLocation> LegendViewLocation { get; set; }
+       public DbSet<ApplicationUser> ApplicationUser { get; set; }
+       public DbSet<Comment> Comment { get; set; }
+       public DbSet<Legend> Legend { get; set; }
+       public DbSet<ViewLocation> ViewLocation { get; set; }
+       public DbSet<LegendViewLocation> LegendViewLocation { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // NOTE: DON'T FORGET THIS LINE
@@ -34,8 +34,8 @@ namespace kauaicapstone.Data
                .HasDefaultValueSql("GETDATE()");
 
             modelBuilder.Entity<ViewLocation>()
-               .HasMany(v => v.LegendViewLocations)
-               .WithOne(vl => vl.ViewLocation)
+               .HasMany(l => l.LegendViewLocations)
+               .WithOne(o => o.ViewLocation)
                .OnDelete(DeleteBehavior.Restrict);
 
 
@@ -115,7 +115,7 @@ namespace kauaicapstone.Data
                 },
                 new Legend()
                 {
-                LegendId = 2,
+                    LegendId = 2,
                     Title = "Pohaku-o-Kane",
                     Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget duis at tellus at urna condimentum mattis pellentesque id. Arcu non odio euismod lacinia at. Faucibus pulvinar elementum integer enim neque volutpat ac tincidunt vitae. Donec adipiscing tristique risus nec feugiat. Congue quisque egestas diam in arcu cursus euismod. Diam vel quam elementum pulvinar etiam non quam.",
                     Source = "Kauai Tales by Frederick Bruce Wichman",
@@ -143,16 +143,42 @@ namespace kauaicapstone.Data
             modelBuilder.Entity<Comment>().HasData(
                 new Comment()
                 {
-                  CommentId = 1,
-                  UserId = user.Id,
-                  Message = "You can also visit the dry caves from Makua Beach, the bridge will be closed if there is heavy rain",
-                  LocationId = 2,
-                  DatePosted = new DateTime(2019, 7, 29)
+                    CommentId = 1,
+                    UserId = user.Id,
+                    Message = "You can also visit the dry caves from Makua Beach, the bridge will be closed if there is heavy rain",
+                    LocationId = 2,
+                    DatePosted = new DateTime(2019, 7, 29)
                 }
                 );
+            modelBuilder.Entity<LegendViewLocation>().HasData(
+                new LegendViewLocation()
+                {
+                    LegendViewLocationId = 1,
+                    ViewLocationId = 1,
+                    LegendId= 2
+            },
+                new LegendViewLocation()
+                {
+                    LegendViewLocationId = 2,
+                    ViewLocationId = 1,
+                    LegendId = 1
+                },
+                new LegendViewLocation()
+                {
+                    LegendViewLocationId = 3,
+                    ViewLocationId = 4,
+                    LegendId = 3
+                },
+                new LegendViewLocation()
+                {
+                    LegendViewLocationId = 4,
+                    ViewLocationId = 2,
+                    LegendId = 4
+                }
+          );
 
-            
-           
+
+
         }
          
     }

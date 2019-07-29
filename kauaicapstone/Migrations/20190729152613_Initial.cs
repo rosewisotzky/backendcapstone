@@ -157,6 +157,30 @@ namespace kauaicapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Legend",
+                columns: table => new
+                {
+                    LegendId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
+                    Source = table.Column<string>(nullable: true),
+                    IsApproved = table.Column<bool>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    ImageURL = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Legend", x => x.LegendId);
+                    table.ForeignKey(
+                        name: "FK_Legend_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ViewLocation",
                 columns: table => new
                 {
@@ -185,7 +209,7 @@ namespace kauaicapstone.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: false),
                     Message = table.Column<string>(nullable: false),
-                    DatePosted = table.Column<DateTime>(nullable: false),
+                    DatePosted = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
                     LocationId = table.Column<int>(nullable: false),
                     ViewLocationId = table.Column<int>(nullable: true)
                 },
@@ -200,37 +224,6 @@ namespace kauaicapstone.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Comment_ViewLocation_ViewLocationId",
-                        column: x => x.ViewLocationId,
-                        principalTable: "ViewLocation",
-                        principalColumn: "ViewLocationId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Legend",
-                columns: table => new
-                {
-                    LegendId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: false),
-                    Source = table.Column<string>(nullable: true),
-                    IsApproved = table.Column<bool>(nullable: false),
-                    UserId = table.Column<string>(nullable: false),
-                    ImageURL = table.Column<string>(nullable: true),
-                    ViewLocationId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Legend", x => x.LegendId);
-                    table.ForeignKey(
-                        name: "FK_Legend_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Legend_ViewLocation_ViewLocationId",
                         column: x => x.ViewLocationId,
                         principalTable: "ViewLocation",
                         principalColumn: "ViewLocationId",
@@ -254,24 +247,24 @@ namespace kauaicapstone.Migrations
                         column: x => x.LegendId,
                         principalTable: "Legend",
                         principalColumn: "LegendId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_LegendViewLocation_ViewLocation_ViewLocationId",
                         column: x => x.ViewLocationId,
                         principalTable: "ViewLocation",
                         principalColumn: "ViewLocationId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsAdmin", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "11856b00-bf9a-4357-a1c1-1afa654a396e", "admin@admin.com", true, "admin", false, "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEAgVhV+CRlKOFLRV/hXPBlkLYhopHjidw7cVcTI+kIfk3XnBMqcCFnkAgVKVLl5haQ==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
+                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "41948a3b-01b1-436e-944d-18e03b4d3766", "admin@admin.com", true, "admin", false, "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEJDcRBdlRxtGO1R5Fr/K97w/R0z5w+TdJj8dkJGP7qjYRA11YmRrgedF+nRwylcyoQ==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsAdmin", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00000001-ffff-ffff-ffff-ffffffffffff", 0, "c87a1417-b979-4f5a-8333-999ce225bf91", "rose@rose.com", true, "Rose", false, "Wisotzky", false, null, "ROSE@ROSE.COM", "ROSE@ROSE.COM", "AQAAAAEAACcQAAAAEL1g82Oo3gmiRtYEcBWk12FETfiFoEfpt/9ZZYTBzJWWzDQsSsZ8K0gmrnENsHXVkQ==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794578", false, "rose@rose.com" });
+                values: new object[] { "00000001-ffff-ffff-ffff-ffffffffffff", 0, "b9f4e338-87e5-492c-ac33-50001ccb4608", "rose@rose.com", true, "Rose", false, "Wisotzky", false, null, "ROSE@ROSE.COM", "ROSE@ROSE.COM", "AQAAAAEAACcQAAAAEDCS/9TqOwspPXexA+eqiCUGW75hIyn15RVEHAvMR50rDr82pxJfQgiwyJVGmCNhqg==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794578", false, "rose@rose.com" });
 
             migrationBuilder.InsertData(
                 table: "Comment",
@@ -280,13 +273,13 @@ namespace kauaicapstone.Migrations
 
             migrationBuilder.InsertData(
                 table: "Legend",
-                columns: new[] { "LegendId", "Description", "ImageURL", "IsApproved", "Source", "Title", "UserId", "ViewLocationId" },
+                columns: new[] { "LegendId", "Description", "ImageURL", "IsApproved", "Source", "Title", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget duis at tellus at urna condimentum mattis pellentesque id. Arcu non odio euismod lacinia at. Faucibus pulvinar elementum integer enim neque volutpat ac tincidunt vitae. Donec adipiscing tristique risus nec feugiat. Congue quisque egestas diam in arcu cursus euismod. Diam vel quam elementum pulvinar etiam non quam.", null, false, "Kauai Tales by Frederick Bruce Wichman", "Na-Piliwale", "00000001-ffff-ffff-ffff-ffffffffffff", null },
-                    { 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget duis at tellus at urna condimentum mattis pellentesque id. Arcu non odio euismod lacinia at. Faucibus pulvinar elementum integer enim neque volutpat ac tincidunt vitae. Donec adipiscing tristique risus nec feugiat. Congue quisque egestas diam in arcu cursus euismod. Diam vel quam elementum pulvinar etiam non quam.", null, false, "Kauai Tales by Frederick Bruce Wichman", "Pohaku-o-Kane", "00000001-ffff-ffff-ffff-ffffffffffff", null },
-                    { 3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget duis at tellus at urna condimentum mattis pellentesque id. Arcu non odio euismod lacinia at. Faucibus pulvinar elementum integer enim neque volutpat ac tincidunt vitae. Donec adipiscing tristique risus nec feugiat. Congue quisque egestas diam in arcu cursus euismod. Diam vel quam elementum pulvinar etiam non quam.", null, false, "Kauai Tales by Frederick Bruce Wichman", "Kanaka-Nunui-Moa", "00000001-ffff-ffff-ffff-ffffffffffff", null },
-                    { 4, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget duis at tellus at urna condimentum mattis pellentesque id. Arcu non odio euismod lacinia at. Faucibus pulvinar elementum integer enim neque volutpat ac tincidunt vitae. Donec adipiscing tristique risus nec feugiat. Congue quisque egestas diam in arcu cursus euismod. Diam vel quam elementum pulvinar etiam non quam.", null, false, "Kauai Tales by Frederick Bruce Wichman", "Nou O Makana", "00000001-ffff-ffff-ffff-ffffffffffff", null }
+                    { 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget duis at tellus at urna condimentum mattis pellentesque id. Arcu non odio euismod lacinia at. Faucibus pulvinar elementum integer enim neque volutpat ac tincidunt vitae. Donec adipiscing tristique risus nec feugiat. Congue quisque egestas diam in arcu cursus euismod. Diam vel quam elementum pulvinar etiam non quam.", null, false, "Kauai Tales by Frederick Bruce Wichman", "Na-Piliwale", "00000001-ffff-ffff-ffff-ffffffffffff" },
+                    { 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget duis at tellus at urna condimentum mattis pellentesque id. Arcu non odio euismod lacinia at. Faucibus pulvinar elementum integer enim neque volutpat ac tincidunt vitae. Donec adipiscing tristique risus nec feugiat. Congue quisque egestas diam in arcu cursus euismod. Diam vel quam elementum pulvinar etiam non quam.", null, false, "Kauai Tales by Frederick Bruce Wichman", "Pohaku-o-Kane", "00000001-ffff-ffff-ffff-ffffffffffff" },
+                    { 3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget duis at tellus at urna condimentum mattis pellentesque id. Arcu non odio euismod lacinia at. Faucibus pulvinar elementum integer enim neque volutpat ac tincidunt vitae. Donec adipiscing tristique risus nec feugiat. Congue quisque egestas diam in arcu cursus euismod. Diam vel quam elementum pulvinar etiam non quam.", null, false, "Kauai Tales by Frederick Bruce Wichman", "Kanaka-Nunui-Moa", "00000001-ffff-ffff-ffff-ffffffffffff" },
+                    { 4, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget duis at tellus at urna condimentum mattis pellentesque id. Arcu non odio euismod lacinia at. Faucibus pulvinar elementum integer enim neque volutpat ac tincidunt vitae. Donec adipiscing tristique risus nec feugiat. Congue quisque egestas diam in arcu cursus euismod. Diam vel quam elementum pulvinar etiam non quam.", null, false, "Kauai Tales by Frederick Bruce Wichman", "Nou O Makana", "00000001-ffff-ffff-ffff-ffffffffffff" }
                 });
 
             migrationBuilder.InsertData(
@@ -298,6 +291,17 @@ namespace kauaicapstone.Migrations
                     { 2, "Limahuli Garden & Preserve", "00000001-ffff-ffff-ffff-ffffffffffff", "5-8291 Kuhio Hwy, Hanalei, HI 96714" },
                     { 3, "Kalalau Valley", "00000001-ffff-ffff-ffff-ffffffffffff", "5-8291 Kuhio Hwy, Hanalei, HI 96714" },
                     { 4, "Sleeping Giant Trail", "00000001-ffff-ffff-ffff-ffffffffffff", "Sleeping Giant, Wailua, HI 96746" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "LegendViewLocation",
+                columns: new[] { "LegendViewLocationId", "LegendId", "ViewLocationId" },
+                values: new object[,]
+                {
+                    { 1, 2, 1 },
+                    { 2, 1, 1 },
+                    { 4, 4, 2 },
+                    { 3, 3, 4 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -353,11 +357,6 @@ namespace kauaicapstone.Migrations
                 name: "IX_Legend_UserId",
                 table: "Legend",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Legend_ViewLocationId",
-                table: "Legend",
-                column: "ViewLocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LegendViewLocation_LegendId",

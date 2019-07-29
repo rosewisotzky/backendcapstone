@@ -10,7 +10,7 @@ using kauaicapstone.Data;
 namespace kauaicapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190729142614_Initial")]
+    [Migration("20190729152613_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -198,7 +198,7 @@ namespace kauaicapstone.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "11856b00-bf9a-4357-a1c1-1afa654a396e",
+                            ConcurrencyStamp = "41948a3b-01b1-436e-944d-18e03b4d3766",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -207,7 +207,7 @@ namespace kauaicapstone.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAgVhV+CRlKOFLRV/hXPBlkLYhopHjidw7cVcTI+kIfk3XnBMqcCFnkAgVKVLl5haQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJDcRBdlRxtGO1R5Fr/K97w/R0z5w+TdJj8dkJGP7qjYRA11YmRrgedF+nRwylcyoQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -217,7 +217,7 @@ namespace kauaicapstone.Migrations
                         {
                             Id = "00000001-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c87a1417-b979-4f5a-8333-999ce225bf91",
+                            ConcurrencyStamp = "b9f4e338-87e5-492c-ac33-50001ccb4608",
                             Email = "rose@rose.com",
                             EmailConfirmed = true,
                             FirstName = "Rose",
@@ -226,7 +226,7 @@ namespace kauaicapstone.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ROSE@ROSE.COM",
                             NormalizedUserName = "ROSE@ROSE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL1g82Oo3gmiRtYEcBWk12FETfiFoEfpt/9ZZYTBzJWWzDQsSsZ8K0gmrnENsHXVkQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDCS/9TqOwspPXexA+eqiCUGW75hIyn15RVEHAvMR50rDr82pxJfQgiwyJVGmCNhqg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
                             TwoFactorEnabled = false,
@@ -240,7 +240,9 @@ namespace kauaicapstone.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DatePosted");
+                    b.Property<DateTime>("DatePosted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<int>("LocationId");
 
@@ -292,13 +294,9 @@ namespace kauaicapstone.Migrations
                     b.Property<string>("UserId")
                         .IsRequired();
 
-                    b.Property<int?>("ViewLocationId");
-
                     b.HasKey("LegendId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("ViewLocationId");
 
                     b.ToTable("Legend");
 
@@ -358,6 +356,32 @@ namespace kauaicapstone.Migrations
                     b.HasIndex("ViewLocationId");
 
                     b.ToTable("LegendViewLocation");
+
+                    b.HasData(
+                        new
+                        {
+                            LegendViewLocationId = 1,
+                            LegendId = 2,
+                            ViewLocationId = 1
+                        },
+                        new
+                        {
+                            LegendViewLocationId = 2,
+                            LegendId = 1,
+                            ViewLocationId = 1
+                        },
+                        new
+                        {
+                            LegendViewLocationId = 3,
+                            LegendId = 3,
+                            ViewLocationId = 4
+                        },
+                        new
+                        {
+                            LegendViewLocationId = 4,
+                            LegendId = 4,
+                            ViewLocationId = 2
+                        });
                 });
 
             modelBuilder.Entity("kauaicapstone.Models.ViewLocation", b =>
@@ -475,23 +499,19 @@ namespace kauaicapstone.Migrations
                         .WithMany("UserLegend")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("kauaicapstone.Models.ViewLocation")
-                        .WithMany("Legends")
-                        .HasForeignKey("ViewLocationId");
                 });
 
             modelBuilder.Entity("kauaicapstone.Models.LegendViewLocation", b =>
                 {
                     b.HasOne("kauaicapstone.Models.Legend", "Legend")
-                        .WithMany("viewLocations")
+                        .WithMany("LegendViewLocations")
                         .HasForeignKey("LegendId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("kauaicapstone.Models.ViewLocation", "ViewLocation")
-                        .WithMany()
+                        .WithMany("LegendViewLocations")
                         .HasForeignKey("ViewLocationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("kauaicapstone.Models.ViewLocation", b =>
