@@ -36,6 +36,8 @@ namespace kauaicapstone.Controllers
 
             var legend = await _context.Legend
                 .Include(l => l.User)
+                .Include(l => l.LegendViewLocations)
+                .ThenInclude(l => l.ViewLocation)
                 .FirstOrDefaultAsync(m => m.LegendId == id);
             if (legend == null)
             {
