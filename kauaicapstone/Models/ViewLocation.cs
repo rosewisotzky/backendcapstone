@@ -13,6 +13,7 @@ namespace kauaicapstone.Models
         [Required]
         public string Name { get; set; }
         [Required]
+        [Display(Name = "Address")]
         public string ViewPointAddress { get; set; }
         [Required]
         public string UserId { get; set; }

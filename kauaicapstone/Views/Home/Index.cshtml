@@ -1,4 +1,4 @@
-﻿@model  kauaicapstone.Models.ViewLocation
+﻿
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -7,16 +7,14 @@
     <h1 class="display-4">waimakua</h1>
     <p>waimakua is an open source directory for kauai legends.</p>
 </div>
+
 <div class="search-header">
     <p>where would you like to go?</p>
-    <form asp-controller="Locations" asp-action="Index" method="get">
-        <input type="text" placeholder="search locations" name="searchString" value="@ViewData["currentFilter"]" />
-        <input type="submit" value="search" class="btn btn-sm btn-info" asp-area="" asp-controller="ViewLocations" asp-action="Default" />
-        <div class="search-results">
+    <form asp-controller="ViewLocations" asp-action="SearchIndex" method="get">
+        <input type="text" placeholder="search locations" name="searchString" value="@ViewData["currentFilter"]" id="searchString" />
+        <input type="submit" value="search" class="btn btn-sm btn-info" asp-area="" asp-controller="ViewLocations" asp-action="SearchIndex" />
 
-            @await Component.InvokeAsync("SearchResults", new { searchResults = ViewData["currentFilter"] })
-
-        </div>
     </form>
-  
 </div>
+
+
