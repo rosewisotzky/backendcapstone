@@ -1,8 +1,20 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">waimakua</h1>
+    <p>waimakua is an open source directory for kauai legends.</p>
 </div>
+
+<div class="search-header">
+    <p>where would you like to go?</p>
+    <form asp-controller="ViewLocations" asp-action="SearchIndex" method="get">
+        <input type="text" placeholder="search locations" name="searchString" value="@ViewData["currentFilter"]" id="searchString" />
+        <input type="submit" value="search" class="btn btn-sm btn-info" asp-area="" asp-controller="ViewLocations" asp-action="SearchIndex" />
+
+    </form>
+</div>
+
+

@@ -17,6 +17,8 @@ namespace kauaicapstone.Controllers
         UserManager<ApplicationUser> _userManager;
 
 
+
+
         public ViewLocationsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
 
         {
@@ -33,7 +35,17 @@ namespace kauaicapstone.Controllers
         {
 
         /*    var applicationDbContext = _context.ViewLocation.Include(v => v.Name).take(v => v.ViewPointAddress)*/
+            
             return View(await _context.ViewLocation.ToListAsync());
+        }
+
+        public async Task<IActionResult> SearchIndex(string searchString)
+        {
+            ViewData["CurrentFilter"] = searchString;
+
+
+            var applicationDbContext = _context.ViewLocation.Where(v=>v.Name.Contains(searchString));
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: ViewLocations/Details/5

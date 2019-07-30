@@ -1,32 +1,23 @@
 ﻿@model IEnumerable<kauaicapstone.Models.ViewLocation>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "SearchIndex";
 }
 
-<h2>Locations</h2>
+<h1>search results</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<div class="table">
-    <dl>
 
-            <dd>
-                @Html.DisplayNameFor(model => model.Name)
-            </dd>
-          
-       
-    </dl>
+<div>
+  
     <div>
 @foreach (var item in Model) {
         <dl>
             <dd>
                 <a asp-action="Details" asp-route-id="@item.ViewLocationId">@Html.DisplayFor(modelItem => item.Name)</a> 
             </dd>
-  
-         
+           
+            
         </dl>
 }
     </div>
-    </div>
+</div>
