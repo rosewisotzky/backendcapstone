@@ -4,20 +4,28 @@
     ViewData["Title"] = "SearchIndex";
 }
 
+<div class="search-header">
+    <p>where would you like to go?</p>
+    <form asp-controller="ViewLocations" asp-action="SearchIndex" method="get">
+        <input type="text" placeholder="search locations" name="searchString" value="@ViewData["currentFilter"]" id="searchString" />
+        <input type="submit" value="search" class="btn btn-sm btn-info" asp-area="" asp-controller="ViewLocations" asp-action="SearchIndex" />
+    </form>
+</div>
 <h1>search results</h1>
 
 
 <div>
-  
+
     <div>
-@foreach (var item in Model) {
-        <dl>
-            <dd>
-                <a asp-action="Details" asp-route-id="@item.ViewLocationId">@Html.DisplayFor(modelItem => item.Name)</a> 
-            </dd>
-           
-            
-        </dl>
-}
+        @foreach (var item in Model)
+        {
+            <dl>
+                <dd>
+                    <a asp-action="Details" asp-route-id="@item.ViewLocationId">@Html.DisplayFor(modelItem => item.Name)</a>
+                </dd>
+
+
+            </dl>
+        }
     </div>
 </div>
