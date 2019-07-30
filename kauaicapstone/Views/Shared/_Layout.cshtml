@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - kauaicapstone</title>
+    <title>@ViewData["Title"] - waimakua</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -42,6 +42,15 @@
                 </div>
             </div>
         </nav>
+        @if (ViewData["Title"] == "Index") {
+        <div class="baby-search">
+            <p>where would you like to go?</p>
+            <form asp-controller="ViewLocations" asp-action="SearchIndex" method="get">
+                <input type="text" placeholder="search locations" name="searchString" value="@ViewData["currentFilter"]" id="searchString" />
+                <input type="submit" value="search" class="btn btn-sm btn-info" asp-area="" asp-controller="ViewLocations" asp-action="SearchIndex" />
+            </form>
+        </div>
+        }
     </header>
     <div class="container">
         <partial name="_CookieConsentPartial" />
