@@ -18,6 +18,9 @@
                    <input type="checkbox" name="@item.ViewLocationId" value="@item.ViewLocationId" /> @item.Name <br>
                }
             </div>
+            <div class="not-available">
+                <a asp-controller="ViewLocations" asp-action="Create" asp-route-id="@Model.ViewLocation">i don't see my location</a>
+            </div>
             <div class="form-group">
                 <input type="submit" value="submit" class="btn btn-primary" />
             </div>
