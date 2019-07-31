@@ -13,24 +13,22 @@
         <form asp-controller="ViewLocations" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-               @foreach(var item in Model.AvailableLocations)
-               {
-                   <input type="checkbox" name="@item.ViewLocationId" value="@item.ViewLocationId" /> @item.Name <br>
-               }
-            </div>
-            <div class="not-available">
-                <a asp-controller="ViewLocations" asp-action="Create" asp-route-id="@Model.ViewLocation">i don't see my location</a>
+                @foreach (var item in Model.AvailableLocations)
+                {
+                    <input type="checkbox" name="@item.ViewLocationId" value="@item.ViewLocationId" /> @item.Name <br>
+                }
             </div>
             <div class="form-group">
-                <input type="submit" value="submit" class="btn btn-primary" />
+                <input asp-controller="Legends" asp-action="CreateForm" type="submit" value="submit" class="btn btn-primary" />
             </div>
         </form>
+
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="not-available">
+    <a asp-controller="ViewLocations" asp-action="Create" asp-route-id="@Model.ViewLocation">i don't see my location</a>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

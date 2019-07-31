@@ -59,7 +59,11 @@ namespace kauaicapstone.Controllers
            
             return View(location);
         }
-
+        //GET: Legends/CreateForm
+        public IActionResult CreateForm()
+        {
+            return View();
+        }
         // POST: Legends/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
