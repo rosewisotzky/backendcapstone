@@ -15,7 +15,7 @@
             <div class="form-group">
                 @foreach (var item in Model.AvailableLocations)
                 {
-                    <input type="checkbox" name="@item.ViewLocationId" value="@item.ViewLocationId" /> @item.Name <br>
+                    <input name="ViewLocationInput" type="checkbox" value="@item.ViewLocationId" /> @item.Name <br>
                 }
             </div>
             <div class="form-group">

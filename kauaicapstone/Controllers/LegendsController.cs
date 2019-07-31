@@ -60,9 +60,13 @@ namespace kauaicapstone.Controllers
             return View(location);
         }
         //GET: Legends/CreateForm
-        public IActionResult CreateForm()
+        public IActionResult CreateForm(List<int> ViewLocationInput)
         {
-            return View();
+            CreateLegendViewModel viewModel = new CreateLegendViewModel()
+            {
+                LocationIds = ViewLocationInput
+        };
+            return View(viewModel);
         }
         // POST: Legends/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
