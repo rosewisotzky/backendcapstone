@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using kauaicapstone.Data;
 using kauaicapstone.Models;
+using kauaicapstone.Models.ViewModels;
 
 namespace kauaicapstone.Controllers
 {
@@ -50,10 +51,23 @@ namespace kauaicapstone.Controllers
         // GET: Legends/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
-            return View();
-        }
+            LocationsLegendViewModel location = new LocationsLegendViewModel() {
+                AvailableLocations = _context.ViewLocation.Include(l => l.User).ToList()
+        };
 
+            
+           
+            return View(location);
+        }
+        //GET: Legends/CreateForm
+        public IActionResult CreateForm(List<int> ViewLocationInput)
+        {
+            CreateLegendViewModel viewModel = new CreateLegendViewModel()
+            {
+                LocationIds = ViewLocationInput
+        };
+            return View(viewModel);
+        }
         // POST: Legends/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
