@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using kauaicapstone.Data;
 using kauaicapstone.Models;
+using kauaicapstone.Models.ViewModels;
 
 namespace kauaicapstone.Controllers
 {
@@ -50,8 +51,13 @@ namespace kauaicapstone.Controllers
         // GET: Legends/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
-            return View();
+            LocationsLegendViewModel location = new LocationsLegendViewModel() {
+                AvailableLocations = _context.ViewLocation.Include(l => l.User).ToList()
+        };
+
+            
+           
+            return View(location);
         }
 
         // POST: Legends/Create
