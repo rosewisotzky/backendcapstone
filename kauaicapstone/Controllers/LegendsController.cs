@@ -8,17 +8,21 @@ using Microsoft.EntityFrameworkCore;
 using kauaicapstone.Data;
 using kauaicapstone.Models;
 using kauaicapstone.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace kauaicapstone.Controllers
 {
     public class LegendsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LegendsController(ApplicationDbContext context)
+        public LegendsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Legends
         public async Task<IActionResult> Index()
@@ -73,16 +77,34 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LegendId,Title,Description,Source,IsApproved,UserId,ImageURL")] Legend legend)
+        public async Task<IActionResult> Create (CreateLegendViewModel viewModel, List<int> ViewLocationInput)
         {
+            ModelState.Remove("Legend.UserId");
+            ModelState.Remove("ViewLocationInput");
+            ModelState.Remove("Legend.LegendViewLocations");
             if (ModelState.IsValid)
             {
+                var legend = viewModel.Legend;
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                legend.UserId = currentUser.Id;
+                viewModel.LocationIds = ViewLocationInput;
                 _context.Add(legend);
+                foreach (var id in ViewLocationInput)
+                {
+                    LegendViewLocation newView = new LegendViewLocation()
+                    {
+                        LegendId = legend.LegendId,
+                        ViewLocationId = id,
+                    };
+                    _context.Add(newView);
+                }
+                
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", legend.UserId);
-            return View(legend);
+           
+            return View(viewModel);
         }
 
         // GET: Legends/Edit/5

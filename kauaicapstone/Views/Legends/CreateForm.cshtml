@@ -1,16 +1,15 @@
 ﻿@model kauaicapstone.Models.ViewModels.CreateLegendViewModel
 
 @{
-    ViewData["Title"] = "CreateForm";
+    ViewData["Title"] = "Create";
 }
 
-<h1>CreateForm</h1>
+<h1>add new legend</h1>
 
-<h4>Legend</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateForm">
+        <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Legend.Title" class="control-label"></label>
@@ -19,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Legend.Description" class="control-label"></label>
-                <input asp-for="Legend.Description" class="form-control" />
+                <textarea asp-for="Legend.Description" class="form-control" > </textarea>
                 <span asp-validation-for="Legend.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -27,14 +26,17 @@
                 <input asp-for="Legend.Source" class="form-control" />
                 <span asp-validation-for="Legend.Source" class="text-danger"></span>
             </div>
-         
+       
+            
             <div class="form-group">
-                <label asp-for="Legend.UserId" class="control-label"></label>
-                <select asp-for="Legend.UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
-            </div>
+                @for (int i = 0; i < Model.LocationIds.Count; i++)
+                {
+               <input type="hidden" name="ViewLocationInput" asp-for="Legend.LegendViewLocations" value="@Model.LocationIds[i]" /> }
 
+            </div>
+   
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="submit"  class="btn btn-primary" />
             </div>
         </form>
     </div>
