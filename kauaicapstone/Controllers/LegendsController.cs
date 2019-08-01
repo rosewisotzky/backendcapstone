@@ -88,6 +88,7 @@ namespace kauaicapstone.Controllers
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
                 legend.UserId = currentUser.Id;
                 viewModel.LocationIds = ViewLocationInput;
+                _context.Add(legend);
                 foreach (var id in ViewLocationInput)
                 {
                     LegendViewLocation newView = new LegendViewLocation()
@@ -98,7 +99,7 @@ namespace kauaicapstone.Controllers
                     _context.Add(newView);
                 }
                 
-                _context.Add(legend);
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
