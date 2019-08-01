@@ -14,13 +14,14 @@ namespace kauaicapstone.Models
         public string Title { get; set; }
         [Required]
         public string Description { get; set; }
+        [Display(Name = "Source (Optional)")]
         public string Source { get; set; }
 
         [Required]
         public bool IsApproved { get; set; }
         [Required]
         public string UserId { get; set; }
-        [Required]
+       
         public ApplicationUser User { get; set; }
         public string ImageURL { get; set; }
         [Required]
