@@ -26,9 +26,15 @@
                 <input asp-for="Legend.Source" class="form-control" />
                 <span asp-validation-for="Legend.Source" class="text-danger"></span>
             </div>
-            <div>
-                <input type="hidden" asp-for="Legend.LegendViewLocations" />
+       
+            
+            <div class="form-group">
+                @for (int i = 0; i < Model.LocationIds.Count; i++)
+                {
+               <input type="hidden" name="ViewLocationInput" asp-for="Legend.LegendViewLocations" value="@Model.LocationIds[i]" /> }
+
             </div>
+   
             <div class="form-group">
                 <input type="submit" value="submit"  class="btn btn-primary" />
             </div>

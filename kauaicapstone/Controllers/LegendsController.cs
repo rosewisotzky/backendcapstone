@@ -77,19 +77,32 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create (CreateLegendViewModel viewModel)
+        public async Task<IActionResult> Create (CreateLegendViewModel viewModel, List<int> ViewLocationInput)
         {
             ModelState.Remove("Legend.UserId");
+            ModelState.Remove("ViewLocationInput");
+            ModelState.Remove("Legend.LegendViewLocations");
             if (ModelState.IsValid)
             {
                 var legend = viewModel.Legend;
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
                 legend.UserId = currentUser.Id;
+                viewModel.LocationIds = ViewLocationInput;
+                foreach (var id in ViewLocationInput)
+                {
+                    LegendViewLocation newView = new LegendViewLocation()
+                    {
+                        LegendId = legend.LegendId,
+                        ViewLocationId = id,
+                    };
+                    _context.Add(newView);
+                }
+                
                 _context.Add(legend);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
+           
             return View(viewModel);
         }
 
