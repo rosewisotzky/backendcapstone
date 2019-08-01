@@ -10,22 +10,34 @@
     <a asp-action="Create">Create New</a>
 </p>
 <div class="table">
-    <div>
-        
+   
+    @foreach (var legend in Model) {
+        @if (legend.IsApproved) {
+        <div>
+
             <dl>
                 @Html.DisplayNameFor(model => model.Title)
             </dl>
-        
+
+        </div>
+        <div>
+            @foreach (var item in Model)
+            {
+                <dl>
+                    <dd>
+                        <a asp-action="Details" asp-route-id="@item.LegendId">@Html.DisplayFor(modelItem => item.Title)</a>
+
+                    </dd>
+
+                </dl>
+            }
+            
+        </div>
+        } 
+
+    }
     </div>
-    <div>
-@foreach (var item in Model) {
-        <dl>
-            <dd>
-                <a asp-action="Details" asp-route-id="@item.LegendId">@Html.DisplayFor(modelItem => item.Title)</a> 
-                
-            </dd>
-           
-        </dl>
-}
-    </div>
+   
+    
+
 </div>
