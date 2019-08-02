@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using kauaicapstone.Data;
 using kauaicapstone.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace kauaicapstone.Controllers
 {
+    [Authorize]
     public class ViewLocationsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -51,29 +53,39 @@ namespace kauaicapstone.Controllers
         // GET: ViewLocations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
+            
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var viewLocation = await _context.ViewLocation
+                    .Include(v => v.User)
+                    .Include(v => v.LegendViewLocations)
+                    .ThenInclude(v => v.Legend)
+                    .FirstOrDefaultAsync(m => m.ViewLocationId == id);
+                if (viewLocation == null)
+                {
+                    return NotFound();
+                }
+
+                return View(viewLocation);
             }
 
-            var viewLocation = await _context.ViewLocation
-                .Include(v => v.User)
-                .Include(v => v.LegendViewLocations)
-                .ThenInclude(v => v.Legend)
-                .FirstOrDefaultAsync(m => m.ViewLocationId == id);
-            if (viewLocation == null)
-            {
-                return NotFound();
-            }
 
-            return View(viewLocation);
-        }
+
 
         // GET: ViewLocations/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
-            return View();
+            if (_userManager.GetUserAsync(User).Result.IsAdmin)
+            {
+                ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
+                return View();
+            } else
+            {
+                return NotFound();
+            }
         }
 
         // POST: ViewLocations/Create

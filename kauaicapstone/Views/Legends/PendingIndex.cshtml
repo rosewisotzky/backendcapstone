@@ -19,9 +19,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Source)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsApproved)
-            </th>
+         
             <th>
                 @Html.DisplayNameFor(model => model.User)
             </th>
@@ -33,6 +31,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)

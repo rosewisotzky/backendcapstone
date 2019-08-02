@@ -9,9 +9,11 @@ using kauaicapstone.Data;
 using kauaicapstone.Models;
 using kauaicapstone.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace kauaicapstone.Controllers
 {
+    [Authorize]
     public class LegendsController : Controller
     {
         private readonly ApplicationDbContext _context;
