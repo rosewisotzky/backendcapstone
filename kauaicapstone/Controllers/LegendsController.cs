@@ -9,9 +9,11 @@ using kauaicapstone.Data;
 using kauaicapstone.Models;
 using kauaicapstone.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace kauaicapstone.Controllers
 {
+    [Authorize]
     public class LegendsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -29,6 +31,14 @@ namespace kauaicapstone.Controllers
         {
             var applicationDbContext = _context.Legend.Include(l => l.User);
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        //GET: PendingLegends
+        public async Task<IActionResult> PendingIndex()
+        {
+            var applicationDbContext = _context.Legend.Include(l => l.User);
+            return View(await applicationDbContext.ToListAsync());
+
         }
 
         // GET: Legends/Details/5

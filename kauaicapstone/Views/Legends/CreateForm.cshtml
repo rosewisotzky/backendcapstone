@@ -1,4 +1,6 @@
 ﻿@model kauaicapstone.Models.ViewModels.CreateLegendViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 
 @{
     ViewData["Title"] = "Create";
@@ -18,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Legend.Description" class="control-label"></label>
-                <textarea asp-for="Legend.Description" class="form-control" > </textarea>
+                <textarea asp-for="Legend.Description" class="form-control"> </textarea>
                 <span asp-validation-for="Legend.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -26,17 +28,23 @@
                 <input asp-for="Legend.Source" class="form-control" />
                 <span asp-validation-for="Legend.Source" class="text-danger"></span>
             </div>
-       
-            
+           
+            <div class="form-group">
+                <label asp-for="Legend.IsApproved" class="control-label"></label>
+                <input type="checkbox" asp-for="Legend.IsApproved" class="form-control" />
+                <span asp-validation-for="Legend.IsApproved" class="text-danger"></span>
+            </div>
+
+
             <div class="form-group">
                 @for (int i = 0; i < Model.LocationIds.Count; i++)
                 {
-               <input type="hidden" name="ViewLocationInput" asp-for="Legend.LegendViewLocations" value="@Model.LocationIds[i]" /> }
+                    <input type="hidden" name="ViewLocationInput" asp-for="Legend.LegendViewLocations" value="@Model.LocationIds[i]" />}
 
             </div>
-   
+
             <div class="form-group">
-                <input type="submit" value="submit"  class="btn btn-primary" />
+                <input type="submit" value="submit" class="btn btn-primary" />
             </div>
         </form>
     </div>
