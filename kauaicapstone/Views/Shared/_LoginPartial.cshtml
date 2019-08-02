@@ -1,4 +1,3 @@
-@model kauaicapstone.Models.ApplicationUser
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -14,13 +13,15 @@
                     <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                 </form>
             </li>
-            @if (UserManager.GetUserAsync(User).Result.IsAdmin)
+            @*@if (UserManager.GetUserAsync(User).Result.IsAdmin)*@
             {
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Legends" asp-action="Index">pending submissions</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Legends" asp-action="PendingIndex">pending submissions</a>
                 </li>
+                }
             }
-
+            else
+            {
 
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
@@ -28,5 +29,6 @@
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
             </li>
-        }
+            }
+        
     </ul>
