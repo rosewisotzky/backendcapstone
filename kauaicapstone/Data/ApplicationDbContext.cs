@@ -51,7 +51,8 @@ namespace kauaicapstone.Data
                 EmailConfirmed = true,
                 LockoutEnabled = false,
                 SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
-                Id = "00000000-ffff-ffff-ffff-ffffffffffff"
+                Id = "00000000-ffff-ffff-ffff-ffffffffffff",
+                IsAdmin = true
             };
             var passwordHash = new PasswordHasher<ApplicationUser>();
             admin.PasswordHash = passwordHash.HashPassword(admin, "Admin8*");
@@ -68,7 +69,8 @@ namespace kauaicapstone.Data
                 EmailConfirmed = true,
                 LockoutEnabled = false,
                 SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
-                Id = "00000001-ffff-ffff-ffff-ffffffffffff"
+                Id = "00000001-ffff-ffff-ffff-ffffffffffff",
+                IsAdmin = false
             };
             var passWordHash1 = new PasswordHasher<ApplicationUser>();
             user.PasswordHash = passWordHash1.HashPassword(user, "Rose8*");
