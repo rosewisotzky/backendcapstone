@@ -42,16 +42,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Source)
             </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.IsApproved)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
+                @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ImageURL)
             </td>
             <td>
+              <form>
+                    <a asp-controller="Legends" asp-action="Approve" name="LegendId" class="btn btn-primary" asp-route-id="@item.LegendId"> approve </a>
+                </form>
+
                 <a asp-action="Edit" asp-route-id="@item.LegendId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.LegendId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.LegendId">Delete</a>
