@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace kauaicapstone.Migrations
 {
-    public partial class Initial : Migration
+    public partial class newAddd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -210,8 +210,7 @@ namespace kauaicapstone.Migrations
                     UserId = table.Column<string>(nullable: false),
                     Message = table.Column<string>(nullable: false),
                     DatePosted = table.Column<DateTime>(nullable: false, defaultValueSql: "GETDATE()"),
-                    LocationId = table.Column<int>(nullable: false),
-                    ViewLocationId = table.Column<int>(nullable: true)
+                    ViewLocationId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -259,17 +258,12 @@ namespace kauaicapstone.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsAdmin", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "41948a3b-01b1-436e-944d-18e03b4d3766", "admin@admin.com", true, "admin", false, "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEJDcRBdlRxtGO1R5Fr/K97w/R0z5w+TdJj8dkJGP7qjYRA11YmRrgedF+nRwylcyoQ==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
+                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "867617ee-cbf9-42b0-a544-90601d1f5b92", "admin@admin.com", true, "admin", true, "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEM+yQwnZsPwCLxsAr6bgnkww1vfI0V/5Y8VP792RcR9IYBxj7LxHwXr3iiyEa182hA==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsAdmin", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00000001-ffff-ffff-ffff-ffffffffffff", 0, "b9f4e338-87e5-492c-ac33-50001ccb4608", "rose@rose.com", true, "Rose", false, "Wisotzky", false, null, "ROSE@ROSE.COM", "ROSE@ROSE.COM", "AQAAAAEAACcQAAAAEDCS/9TqOwspPXexA+eqiCUGW75hIyn15RVEHAvMR50rDr82pxJfQgiwyJVGmCNhqg==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794578", false, "rose@rose.com" });
-
-            migrationBuilder.InsertData(
-                table: "Comment",
-                columns: new[] { "CommentId", "DatePosted", "LocationId", "Message", "UserId", "ViewLocationId" },
-                values: new object[] { 1, new DateTime(2019, 7, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "You can also visit the dry caves from Makua Beach, the bridge will be closed if there is heavy rain", "00000001-ffff-ffff-ffff-ffffffffffff", null });
+                values: new object[] { "00000001-ffff-ffff-ffff-ffffffffffff", 0, "ea75bdc0-0612-426b-8f70-4eaac4414a51", "rose@rose.com", true, "Rose", false, "Wisotzky", false, null, "ROSE@ROSE.COM", "ROSE@ROSE.COM", "AQAAAAEAACcQAAAAEFYPpGXuUDR1prs0zOTTgm9BoEVH7JYhRPG5YpwDhmZCdNOnwAasnjOz9tQSrnuU4Q==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794578", false, "rose@rose.com" });
 
             migrationBuilder.InsertData(
                 table: "Legend",
@@ -291,6 +285,15 @@ namespace kauaicapstone.Migrations
                     { 2, "Limahuli Garden & Preserve", "00000001-ffff-ffff-ffff-ffffffffffff", "5-8291 Kuhio Hwy, Hanalei, HI 96714" },
                     { 3, "Kalalau Valley", "00000001-ffff-ffff-ffff-ffffffffffff", "5-8291 Kuhio Hwy, Hanalei, HI 96714" },
                     { 4, "Sleeping Giant Trail", "00000001-ffff-ffff-ffff-ffffffffffff", "Sleeping Giant, Wailua, HI 96746" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Comment",
+                columns: new[] { "CommentId", "DatePosted", "Message", "UserId", "ViewLocationId" },
+                values: new object[,]
+                {
+                    { 2, new DateTime(2019, 7, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), "Beautiful swimming spot, great parking", "00000001-ffff-ffff-ffff-ffffffffffff", 1 },
+                    { 1, new DateTime(2019, 7, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), "You can also visit the dry caves from Makua Beach, the bridge will be closed if there is heavy rain", "00000001-ffff-ffff-ffff-ffffffffffff", 2 }
                 });
 
             migrationBuilder.InsertData(

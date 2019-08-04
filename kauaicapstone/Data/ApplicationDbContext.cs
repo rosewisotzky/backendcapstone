@@ -30,13 +30,25 @@ namespace kauaicapstone.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Comment>()
+                
                .Property(b => b.DatePosted)
                .HasDefaultValueSql("GETDATE()");
+
+
 
             modelBuilder.Entity<ViewLocation>()
                .HasMany(l => l.LegendViewLocations)
                .WithOne(o => o.ViewLocation)
+              
                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ViewLocation>()
+           .HasMany(l => l.Comments)
+           .WithOne(o => o.viewLocation)
+
+           .OnDelete(DeleteBehavior.Restrict);
+
+
 
 
             // Create a new user for Identity Framework
@@ -148,9 +160,17 @@ namespace kauaicapstone.Data
                     CommentId = 1,
                     UserId = user.Id,
                     Message = "You can also visit the dry caves from Makua Beach, the bridge will be closed if there is heavy rain",
-                    LocationId = 2,
+                    ViewLocationId = 2,
                     DatePosted = new DateTime(2019, 7, 29)
-                }
+                },
+                  new Comment()
+                  {
+                      CommentId = 2,
+                      UserId = user.Id,
+                      Message = "Beautiful swimming spot, great parking",
+                      ViewLocationId = 1,
+                      DatePosted = new DateTime(2019, 7, 29)
+                  }
                 );
             modelBuilder.Entity<LegendViewLocation>().HasData(
                 new LegendViewLocation()
