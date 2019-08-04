@@ -61,6 +61,7 @@ namespace kauaicapstone.Controllers
 
                 var viewLocation = await _context.ViewLocation
                     .Include(v => v.User)
+                    .Include(v => v.Comments)
                     .Include(v => v.LegendViewLocations)
                     .ThenInclude(v => v.Legend)
                     .FirstOrDefaultAsync(m => m.ViewLocationId == id);

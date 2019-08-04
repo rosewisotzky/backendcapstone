@@ -10,8 +10,8 @@ using kauaicapstone.Data;
 namespace kauaicapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190802143837_UserInfo")]
-    partial class UserInfo
+    [Migration("20190804224804_newAddd")]
+    partial class newAddd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -198,7 +198,7 @@ namespace kauaicapstone.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7a79021d-9b69-43fe-82c9-ac7355809936",
+                            ConcurrencyStamp = "867617ee-cbf9-42b0-a544-90601d1f5b92",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -207,7 +207,7 @@ namespace kauaicapstone.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ3Fxvd3W8J29VFV7cJfGxviMTjzJyytmAMN6jrMnaxPoN5jOc/+SIzehukEBdpReQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM+yQwnZsPwCLxsAr6bgnkww1vfI0V/5Y8VP792RcR9IYBxj7LxHwXr3iiyEa182hA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -217,7 +217,7 @@ namespace kauaicapstone.Migrations
                         {
                             Id = "00000001-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d2c6e529-bda5-4905-8797-6a71260f0ed9",
+                            ConcurrencyStamp = "ea75bdc0-0612-426b-8f70-4eaac4414a51",
                             Email = "rose@rose.com",
                             EmailConfirmed = true,
                             FirstName = "Rose",
@@ -226,7 +226,7 @@ namespace kauaicapstone.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ROSE@ROSE.COM",
                             NormalizedUserName = "ROSE@ROSE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJwe8sqMTnnQ1ssYHpirpphB0Zs4yunKMstERSSqlPW7bek1AqYFNBsUC1dLh73p6A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFYPpGXuUDR1prs0zOTTgm9BoEVH7JYhRPG5YpwDhmZCdNOnwAasnjOz9tQSrnuU4Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
                             TwoFactorEnabled = false,
@@ -244,15 +244,13 @@ namespace kauaicapstone.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int>("LocationId");
-
                     b.Property<string>("Message")
                         .IsRequired();
 
                     b.Property<string>("UserId")
                         .IsRequired();
 
-                    b.Property<int?>("ViewLocationId");
+                    b.Property<int>("ViewLocationId");
 
                     b.HasKey("CommentId");
 
@@ -267,9 +265,17 @@ namespace kauaicapstone.Migrations
                         {
                             CommentId = 1,
                             DatePosted = new DateTime(2019, 7, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LocationId = 2,
                             Message = "You can also visit the dry caves from Makua Beach, the bridge will be closed if there is heavy rain",
-                            UserId = "00000001-ffff-ffff-ffff-ffffffffffff"
+                            UserId = "00000001-ffff-ffff-ffff-ffffffffffff",
+                            ViewLocationId = 2
+                        },
+                        new
+                        {
+                            CommentId = 2,
+                            DatePosted = new DateTime(2019, 7, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Message = "Beautiful swimming spot, great parking",
+                            UserId = "00000001-ffff-ffff-ffff-ffffffffffff",
+                            ViewLocationId = 1
                         });
                 });
 
@@ -488,9 +494,10 @@ namespace kauaicapstone.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("kauaicapstone.Models.ViewLocation")
+                    b.HasOne("kauaicapstone.Models.ViewLocation", "viewLocation")
                         .WithMany("Comments")
-                        .HasForeignKey("ViewLocationId");
+                        .HasForeignKey("ViewLocationId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("kauaicapstone.Models.Legend", b =>
