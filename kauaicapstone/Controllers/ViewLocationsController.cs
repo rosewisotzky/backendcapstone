@@ -79,14 +79,10 @@ namespace kauaicapstone.Controllers
         // GET: ViewLocations/Create
         public IActionResult Create()
         {
-            if (_userManager.GetUserAsync(User).Result.IsAdmin)
             {
                 ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
                 return View();
-            } else
-            {
-                return NotFound();
-            }
+            } 
         }
 
         // POST: ViewLocations/Create
@@ -94,10 +90,15 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ViewLocationId,Name,ViewPointAddress,UserId")] ViewLocation viewLocation)
+        public async Task<IActionResult> Create(ViewLocation viewLocation)
         {
+            ModelState.Remove("UserId");
+            ModelState.Remove("User");
             if (ModelState.IsValid)
             {
+
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                viewLocation.UserId = currentUser.Id;
                 _context.Add(viewLocation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -166,17 +167,22 @@ namespace kauaicapstone.Controllers
             {
                 return NotFound();
             }
-
-            var viewLocation = await _context.ViewLocation
+            if (_userManager.GetUserAsync(User).Result.IsAdmin)
+            {
+                var viewLocation = await _context.ViewLocation
                 .Include(v => v.User)
                 .FirstOrDefaultAsync(m => m.ViewLocationId == id);
-            if (viewLocation == null)
+                if (viewLocation == null)
+                {
+                    return NotFound();
+                }
+
+                return View(viewLocation);
+            } else
             {
                 return NotFound();
             }
-
-            return View(viewLocation);
-        }
+        } 
 
         // POST: ViewLocations/Delete/5
         [HttpPost, ActionName("Delete")]
