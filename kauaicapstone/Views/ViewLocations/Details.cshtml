@@ -47,17 +47,27 @@
                     <a asp-controller="Legends" asp-action="Details" asp-route-id="@item.ViewLocation.ViewLocationId">@Html.DisplayFor(modelItem => item.Legend.Title)</a>
                 </dd>
             }
-                <dd class="col-sm-10">
-                    @if (Model.Comments != null)
-                    {
-                    @foreach (var item in Model.Comments)
-                    {
-                        @Html.DisplayFor(modelItem => item.Message); 
-                        @Html.DisplayFor(modelItem => item.DatePosted) <br />;
-                    }
-                    }
+        <dd class="col-sm-2">
+            @if (Model.Comments != null)
+            {
+                @foreach (var item in Model.Comments)
+                {
+                    <p> @Html.DisplayFor(modelItem => item.Message)</p>;
+                    @Html.DisplayFor(modelItem => item.DatePosted) <br />;
 
-                </dd>
+                }
+            }
+         
+                <form asp-action="Create" method="post">
+                    <div class="form-group">
+                        <textarea class="form-control"> </textarea>
+                        <span asp-validation-for="@Model.Comments" class="text-danger"></span>
+                        <idiv> <input type="submit" value="add comment" class="btn btn-primary" /></idiv>
+                    </div>
+                </form>
+            
+
+            </dd>
             </dl>
             
 
