@@ -11,8 +11,9 @@
 </p>
 <div class="table">
    
-    @foreach (var legend in Model) {
-        @if (legend.IsApproved) {
+ 
+    <div>
+
         <div>
 
             <dl>
@@ -20,22 +21,19 @@
             </dl>
 
         </div>
-        <div>
-            @foreach (var item in Model)
-            {
-                <dl>
-                    <dd>
-                        <a asp-action="Details" asp-route-id="@item.LegendId">@Html.DisplayFor(modelItem => item.Title)</a>
+        @foreach (var item in Model)
+        {
+            <dl>
+                <dd>
+                    <a asp-action="Details" asp-route-id="@item.LegendId">@Html.DisplayFor(modelItem => item.Title)</a>
 
-                    </dd>
+                </dd>
 
-                </dl>
-            }
-            
-        </div>
-        } 
+            </dl>
+        }
 
-    }
+    </div>
+        
     </div>
    
     

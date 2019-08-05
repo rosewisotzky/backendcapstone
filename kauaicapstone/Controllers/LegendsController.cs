@@ -29,7 +29,7 @@ namespace kauaicapstone.Controllers
         // GET: Legends
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Legend.Include(l => l.User);
+            var applicationDbContext = _context.Legend.Include(l => l.User).Where(l => l.IsApproved == true); 
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -41,11 +41,11 @@ namespace kauaicapstone.Controllers
 
         }
         //POST: Approved Legends
-        [HttpPost]
-        public async Task<IActionResult> Approve([FromRoute] int LegendId)
+        
+        public async Task<IActionResult> Approve([FromRoute] int id)
         {
-            var legend = _context.Legend.Find(LegendId);
-            if (LegendId != legend.LegendId)
+            var legend = _context.Legend.Find(id);
+            if (id != legend.LegendId)
             {
                 return NotFound();
             }
