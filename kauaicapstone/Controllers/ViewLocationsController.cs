@@ -9,6 +9,7 @@ using kauaicapstone.Data;
 using kauaicapstone.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using kauaicapstone.Models.ViewModels;
 
 namespace kauaicapstone.Controllers
 {
@@ -32,6 +33,10 @@ namespace kauaicapstone.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
+        public IActionResult LegendsIndex()
+        {
+            return this.RedirectToAction("Create", "Legends");
+        }
         // GET: ViewLocations
         public async Task<IActionResult> Index()
         {
@@ -79,14 +84,10 @@ namespace kauaicapstone.Controllers
         // GET: ViewLocations/Create
         public IActionResult Create()
         {
-            if (_userManager.GetUserAsync(User).Result.IsAdmin)
             {
                 ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
                 return View();
-            } else
-            {
-                return NotFound();
-            }
+            } 
         }
 
         // POST: ViewLocations/Create
@@ -94,16 +95,29 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ViewLocationId,Name,ViewPointAddress,UserId")] ViewLocation viewLocation)
+        public async Task<IActionResult> Create(LocationsLegendViewModel viewModel, List<int> ViewLocationInput)
         {
+            ModelState.Remove("UserId");
+            ModelState.Remove("ViewLocation.User");
             if (ModelState.IsValid)
             {
-                _context.Add(viewLocation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var location = viewModel.ViewLocation;
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                viewModel.ViewLocation.User = currentUser;
+                viewModel.ViewLocation.UserId = currentUser.Id;
+                _context.Add(location);
+                foreach (var id in ViewLocationInput) { 
+                LegendViewLocation newView = new LegendViewLocation()
+                {
+                    ViewLocationId = location.ViewLocationId,
+                   
+                };
             }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewLocation.UserId);
-            return View(viewLocation);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(LegendsIndex));
+            }
+            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewModel.ViewLocation.UserId);
+            return View(viewModel);
         }
 
         // GET: ViewLocations/Edit/5
@@ -166,17 +180,22 @@ namespace kauaicapstone.Controllers
             {
                 return NotFound();
             }
-
-            var viewLocation = await _context.ViewLocation
+            if (_userManager.GetUserAsync(User).Result.IsAdmin)
+            {
+                var viewLocation = await _context.ViewLocation
                 .Include(v => v.User)
                 .FirstOrDefaultAsync(m => m.ViewLocationId == id);
-            if (viewLocation == null)
+                if (viewLocation == null)
+                {
+                    return NotFound();
+                }
+
+                return View(viewLocation);
+            } else
             {
                 return NotFound();
             }
-
-            return View(viewLocation);
-        }
+        } 
 
         // POST: ViewLocations/Delete/5
         [HttpPost, ActionName("Delete")]
