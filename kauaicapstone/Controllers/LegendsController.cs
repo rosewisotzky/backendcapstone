@@ -29,17 +29,53 @@ namespace kauaicapstone.Controllers
         // GET: Legends
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Legend.Include(l => l.User);
+            var applicationDbContext = _context.Legend.Include(l => l.User).Where(l => l.IsApproved == true); 
             return View(await applicationDbContext.ToListAsync());
         }
 
         //GET: PendingLegends
         public async Task<IActionResult> PendingIndex()
         {
-            var applicationDbContext = _context.Legend.Include(l => l.User);
+            var applicationDbContext = _context.Legend.Include(l => l.User).Where(l=>l.IsApproved == false);
             return View(await applicationDbContext.ToListAsync());
 
         }
+        //POST: Approved Legends
+        
+        public async Task<IActionResult> Approve([FromRoute] int id)
+        {
+            var legend = _context.Legend.Find(id);
+            if (id != legend.LegendId)
+            {
+                return NotFound();
+            }
+         
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    
+                    legend.IsApproved = true;
+                    _context.Update(legend);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!LegendExists(legend.LegendId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", legend.UserId);
+            return View(legend);
+        }
+
 
         // GET: Legends/Details/5
         public async Task<IActionResult> Details(int? id)
