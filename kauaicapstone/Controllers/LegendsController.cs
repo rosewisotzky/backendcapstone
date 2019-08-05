@@ -232,6 +232,11 @@ namespace kauaicapstone.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var legend = await _context.Legend.FindAsync(id);
+            var viewLocation = await _context.LegendViewLocation.Where(l => l.LegendId == legend.LegendId).ToListAsync();
+            foreach(var item in viewLocation)
+            {
+                _context.LegendViewLocation.Remove(item);
+            }
             _context.Legend.Remove(legend);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
