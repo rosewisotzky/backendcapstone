@@ -29,14 +29,16 @@ namespace kauaicapstone.Controllers
         // GET: Legends
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Legend.Include(l => l.User).Where(l => l.IsApproved == true); 
+            var applicationDbContext = _context.Legend.Include(l => l.User).Where(l => l.IsApproved == true);
             return View(await applicationDbContext.ToListAsync());
         }
 
         //GET: PendingLegends
         public async Task<IActionResult> PendingIndex()
         {
-            var applicationDbContext = _context.Legend.Include(l => l.User).Where(l=>l.IsApproved == false);
+            var applicationDbContext = _context.Legend.Include(l => l.User).Where(l => l.IsApproved == false);
+
+
             return View(await applicationDbContext.ToListAsync());
 
         }
@@ -162,6 +164,8 @@ namespace kauaicapstone.Controllers
             }
 
             var legend = await _context.Legend.FindAsync(id);
+           
+            
             if (legend == null)
             {
                 return NotFound();
@@ -187,6 +191,11 @@ namespace kauaicapstone.Controllers
             {
                 try
                 {
+                    var viewLocation = await _context.LegendViewLocation.Where(l => l.LegendId == legend.LegendId).ToListAsync();
+                    foreach (var item in viewLocation)
+                    {
+                        _context.LegendViewLocation.Update(item);
+                    }
                     _context.Update(legend);
                     await _context.SaveChangesAsync();
                 }
@@ -217,6 +226,7 @@ namespace kauaicapstone.Controllers
 
             var legend = await _context.Legend
                 .Include(l => l.User)
+                .Include(l => l.LegendViewLocations)
                 .FirstOrDefaultAsync(m => m.LegendId == id);
             if (legend == null)
             {
