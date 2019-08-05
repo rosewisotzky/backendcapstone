@@ -9,6 +9,7 @@ namespace kauaicapstone.Models.ViewModels
     {
         public Legend Legend { get; set; }
         public ViewLocation Location { get; set; }
+        
         public List<int> LocationIds { get; set; }
         public List<ViewLocation> AvailableLocations { get; set; }
 

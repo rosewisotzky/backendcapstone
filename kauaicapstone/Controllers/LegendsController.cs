@@ -125,7 +125,7 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create (CreateLegendViewModel viewModel, List<int> ViewLocationInput)
+        public async Task<IActionResult> Create (EditLegendLocationViewModel viewModel, List<int> ViewLocationInput)
         {
             ModelState.Remove("Legend.UserId");
             ModelState.Remove("ViewLocationInput");
@@ -187,14 +187,14 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CreateLegendViewModel viewModel)
+        public async Task<IActionResult> Edit(int id, EditLegendLocationViewModel viewModel)
         {
             if (id != viewModel.Legend.LegendId)
             {
                 return NotFound();
             }
             ModelState.Remove("User");
-            ModelState.Remove("LegendViewLocations");
+            ModelState.Remove("Legend.LegendViewLocations");
             if (ModelState.IsValid)
             {
                 try
