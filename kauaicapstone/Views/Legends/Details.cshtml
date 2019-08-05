@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Details";
 }
-@if (Model.IsApproved && Model.User.IsAdmin)
+
 {<h1>Details</h1>
 
     <div>
@@ -43,9 +43,4 @@
     <div>
         <a asp-action="Edit" asp-route-id="@Model.LegendId">Edit</a> |
         <a asp-action="Index">Back to List</a>
-    </div>}
-else
-{
-    <p>sorry, we couldn't find a legend here</p>
-}
-
+    </div>

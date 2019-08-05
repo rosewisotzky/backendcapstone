@@ -40,7 +40,7 @@ namespace kauaicapstone.Controllers
             return View(await applicationDbContext.ToListAsync());
 
         }
-        //POST: Approved Legends
+        //GET: Approved Legends
         
         public async Task<IActionResult> Approve([FromRoute] int id)
         {
@@ -175,13 +175,14 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LegendId,Title,Description,Source,IsApproved,UserId,ImageURL")] Legend legend)
+        public async Task<IActionResult> Edit(int id, Legend legend)
         {
             if (id != legend.LegendId)
             {
                 return NotFound();
             }
-
+            ModelState.Remove("User");
+            ModelState.Remove("LegendViewLocations");
             if (ModelState.IsValid)
             {
                 try
