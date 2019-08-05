@@ -1,4 +1,4 @@
-﻿@model kauaicapstone.Models.Legend
+﻿@model kauaicapstone.Models.ViewModels.EditLegendLocationViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,31 +12,44 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="LegendId" />
+            <input type="hidden" asp-for="Legend.LegendId" />
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="Legend.Title" class="control-label"></label>
+                <input asp-for="Legend.Title" class="form-control" />
+                <span asp-validation-for="Legend.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="Legend.Description" class="control-label"></label>
+                <input asp-for="Legend.Description" class="form-control" />
+                <span asp-validation-for="Legend.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Source" class="control-label"></label>
-                <input asp-for="Source" class="form-control" />
-                <span asp-validation-for="Source" class="text-danger"></span>
+                <label asp-for="Legend.Source" class="control-label"></label>
+                <input asp-for="Legend.Source" class="form-control" />
+                <span asp-validation-for="Legend.Source" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsApproved" /> @Html.DisplayNameFor(model => model.IsApproved)
+                    <input class="form-check-input" asp-for="Legend.IsApproved" /> @Html.DisplayNameFor(model => model.Legend.IsApproved)
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
+
+                @foreach (var item in Model.AvailableLocations)
+                {
+                    if (Model.LocationIds.Contains(item.ViewLocationId))
+                    {
+                        <input name="ViewLocationInput" type="checkbox" value="@item.ViewLocationId" checked /> @item.Name <br>
+                    }
+                    else
+                    {<input name="ViewLocationInput" type="checkbox" value="@item.ViewLocationId" /> @item.Name <br>}
+            }
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Legend.UserId" class="control-label"></label>
+                <select asp-for="Legend.UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <span asp-validation-for="Legend.UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

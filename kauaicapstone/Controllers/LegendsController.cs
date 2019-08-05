@@ -24,7 +24,7 @@ namespace kauaicapstone.Controllers
             _context = context;
             _userManager = userManager;
         }
-        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        //private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Legends
         public async Task<IActionResult> Index()
@@ -162,16 +162,24 @@ namespace kauaicapstone.Controllers
             {
                 return NotFound();
             }
+            var viewLocationList = _context.LegendViewLocation.Where(lv => lv.LegendId == id).Select(lv => lv.ViewLocationId).ToList();
 
-            var legend = await _context.Legend.FindAsync(id);
+            EditLegendLocationViewModel location = new EditLegendLocationViewModel()
+            {
+                AvailableLocations = _context.ViewLocation.Include(l => l.User).ToList(),
+                Legend = await _context.Legend.FindAsync(id),
+                LocationIds = viewLocationList
+
+            };
+             
            
             
-            if (legend == null)
+            if (location == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", legend.UserId);
-            return View(legend);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", location.Legend.UserId);
+            return View(location);
         }
 
         // POST: Legends/Edit/5
@@ -179,9 +187,9 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Legend legend)
+        public async Task<IActionResult> Edit(int id, CreateLegendViewModel viewModel)
         {
-            if (id != legend.LegendId)
+            if (id != viewModel.Legend.LegendId)
             {
                 return NotFound();
             }
@@ -191,17 +199,17 @@ namespace kauaicapstone.Controllers
             {
                 try
                 {
-                    var viewLocation = await _context.LegendViewLocation.Where(l => l.LegendId == legend.LegendId).ToListAsync();
+                    var viewLocation = await _context.LegendViewLocation.Where(l => l.LegendId == viewModel.Legend.LegendId).ToListAsync();
                     foreach (var item in viewLocation)
                     {
                         _context.LegendViewLocation.Update(item);
                     }
-                    _context.Update(legend);
+                    _context.Update(viewModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LegendExists(legend.LegendId))
+                    if (!LegendExists(viewModel.Legend.LegendId))
                     {
                         return NotFound();
                     }
@@ -212,8 +220,8 @@ namespace kauaicapstone.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", legend.UserId);
-            return View(legend);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewModel.Legend.UserId);
+            return View(viewModel);
         }
 
         // GET: Legends/Delete/5
