@@ -31,9 +31,13 @@
         <dt class="col-sm-2">
             @Html.Name("Associated Legends")
         </dt>
-       
+        <dt class="col-sm-2">
+            @Html.Name("Comments")
+        </dt>
 
-        
+
+
+
     </dl>
     <div>
         <dl>
@@ -43,8 +47,31 @@
                     <a asp-controller="Legends" asp-action="Details" asp-route-id="@item.ViewLocation.ViewLocationId">@Html.DisplayFor(modelItem => item.Legend.Title)</a>
                 </dd>
             }
-        </dl>      
-    </div>
+        <dd class="col-sm-2">
+            @if (Model.Comments != null)
+            {
+                @foreach (var item in Model.Comments)
+                {
+                    <p> @Html.DisplayFor(modelItem => item.Message)</p>;
+                    @Html.DisplayFor(modelItem => item.DatePosted) <br />;
+
+                }
+            }
+         
+                <form asp-action="Create" method="post">
+                    <div class="form-group">
+                        <textarea class="form-control"> </textarea>
+                        <span asp-validation-for="@Model.Comments" class="text-danger"></span>
+                        <idiv> <input type="submit" value="add comment" class="btn btn-primary" /></idiv>
+                    </div>
+                </form>
+            
+
+            </dd>
+            </dl>
+            
+
+</div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ViewLocationId">Edit</a> |
