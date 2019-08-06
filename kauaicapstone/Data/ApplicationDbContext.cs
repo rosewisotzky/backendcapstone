@@ -101,7 +101,8 @@ namespace kauaicapstone.Data
                       ViewLocationId = 2,
                       Name = "Limahuli Garden & Preserve",
                       ViewPointAddress = "5-8291 Kuhio Hwy, Hanalei, HI 96714",
-                      UserId = user.Id
+                      UserId = user.Id,
+                      IsFavorite = true
                   },
                   new ViewLocation()
                   {

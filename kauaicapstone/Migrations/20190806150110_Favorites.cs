@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace kauaicapstone.Migrations
 {
-    public partial class newAddd : Migration
+    public partial class Favorites : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -188,7 +188,8 @@ namespace kauaicapstone.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
                     ViewPointAddress = table.Column<string>(nullable: false),
-                    UserId = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    IsFavorite = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -258,12 +259,12 @@ namespace kauaicapstone.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsAdmin", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "867617ee-cbf9-42b0-a544-90601d1f5b92", "admin@admin.com", true, "admin", true, "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEM+yQwnZsPwCLxsAr6bgnkww1vfI0V/5Y8VP792RcR9IYBxj7LxHwXr3iiyEa182hA==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
+                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "eeecb764-cd2c-49c6-bf2f-7f33cd7d5a6c", "admin@admin.com", true, "admin", true, "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEF2WilF8H7OxJdl/YMPR1mQ7HPZy8gS9ofY3NdtRZ39vjpluVHqK1GnE3icM162SGQ==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsAdmin", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00000001-ffff-ffff-ffff-ffffffffffff", 0, "ea75bdc0-0612-426b-8f70-4eaac4414a51", "rose@rose.com", true, "Rose", false, "Wisotzky", false, null, "ROSE@ROSE.COM", "ROSE@ROSE.COM", "AQAAAAEAACcQAAAAEFYPpGXuUDR1prs0zOTTgm9BoEVH7JYhRPG5YpwDhmZCdNOnwAasnjOz9tQSrnuU4Q==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794578", false, "rose@rose.com" });
+                values: new object[] { "00000001-ffff-ffff-ffff-ffffffffffff", 0, "f7916830-528d-4c69-90f1-8c71c9f240bb", "rose@rose.com", true, "Rose", false, "Wisotzky", false, null, "ROSE@ROSE.COM", "ROSE@ROSE.COM", "AQAAAAEAACcQAAAAECT0R6UkTu7uYvcCyDkk7AIYfvjB9uqUTDKDJ87ZIin4iLN3muEF5aKBjBndoz3mLA==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794578", false, "rose@rose.com" });
 
             migrationBuilder.InsertData(
                 table: "Legend",
@@ -278,13 +279,13 @@ namespace kauaicapstone.Migrations
 
             migrationBuilder.InsertData(
                 table: "ViewLocation",
-                columns: new[] { "ViewLocationId", "Name", "UserId", "ViewPointAddress" },
+                columns: new[] { "ViewLocationId", "IsFavorite", "Name", "UserId", "ViewPointAddress" },
                 values: new object[,]
                 {
-                    { 1, "Makua Beach", "00000001-ffff-ffff-ffff-ffffffffffff", "HI-560, Kapaʻa, HI 96746" },
-                    { 2, "Limahuli Garden & Preserve", "00000001-ffff-ffff-ffff-ffffffffffff", "5-8291 Kuhio Hwy, Hanalei, HI 96714" },
-                    { 3, "Kalalau Valley", "00000001-ffff-ffff-ffff-ffffffffffff", "5-8291 Kuhio Hwy, Hanalei, HI 96714" },
-                    { 4, "Sleeping Giant Trail", "00000001-ffff-ffff-ffff-ffffffffffff", "Sleeping Giant, Wailua, HI 96746" }
+                    { 1, false, "Makua Beach", "00000001-ffff-ffff-ffff-ffffffffffff", "HI-560, Kapaʻa, HI 96746" },
+                    { 2, true, "Limahuli Garden & Preserve", "00000001-ffff-ffff-ffff-ffffffffffff", "5-8291 Kuhio Hwy, Hanalei, HI 96714" },
+                    { 3, false, "Kalalau Valley", "00000001-ffff-ffff-ffff-ffffffffffff", "5-8291 Kuhio Hwy, Hanalei, HI 96714" },
+                    { 4, false, "Sleeping Giant Trail", "00000001-ffff-ffff-ffff-ffffffffffff", "Sleeping Giant, Wailua, HI 96746" }
                 });
 
             migrationBuilder.InsertData(

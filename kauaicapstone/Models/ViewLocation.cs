@@ -21,5 +21,6 @@ namespace kauaicapstone.Models
         public ApplicationUser User { get; set; }
         public ICollection<LegendViewLocation> LegendViewLocations { get; set; }
         public ICollection<Comment> Comments { get; set; }
+        public bool IsFavorite { get; set;  }
     }
 }

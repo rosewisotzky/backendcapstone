@@ -196,7 +196,7 @@ namespace kauaicapstone.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d2b12c57-375e-40a2-a3b4-c7cb93cad6c8",
+                            ConcurrencyStamp = "eeecb764-cd2c-49c6-bf2f-7f33cd7d5a6c",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -205,7 +205,7 @@ namespace kauaicapstone.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPjsawpI/7x7gb1KqcvgZUZHW2aTmauwRwSBulPyQUIfeaCGB3dMphoVgu37EOdwow==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF2WilF8H7OxJdl/YMPR1mQ7HPZy8gS9ofY3NdtRZ39vjpluVHqK1GnE3icM162SGQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -215,7 +215,7 @@ namespace kauaicapstone.Migrations
                         {
                             Id = "00000001-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "232a96e4-537e-4307-bcbe-94324365d6cf",
+                            ConcurrencyStamp = "f7916830-528d-4c69-90f1-8c71c9f240bb",
                             Email = "rose@rose.com",
                             EmailConfirmed = true,
                             FirstName = "Rose",
@@ -224,7 +224,7 @@ namespace kauaicapstone.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ROSE@ROSE.COM",
                             NormalizedUserName = "ROSE@ROSE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB+IOhcGbAyBWTGdcy6GVxYe71n0+axAyu3xipMcf+jrb75uBznhqYzYzvZo/dqGBg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECT0R6UkTu7uYvcCyDkk7AIYfvjB9uqUTDKDJ87ZIin4iLN3muEF5aKBjBndoz3mLA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
                             TwoFactorEnabled = false,
@@ -394,6 +394,8 @@ namespace kauaicapstone.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("IsFavorite");
+
                     b.Property<string>("Name")
                         .IsRequired();
 
@@ -413,6 +415,7 @@ namespace kauaicapstone.Migrations
                         new
                         {
                             ViewLocationId = 1,
+                            IsFavorite = false,
                             Name = "Makua Beach",
                             UserId = "00000001-ffff-ffff-ffff-ffffffffffff",
                             ViewPointAddress = "HI-560, Kapaʻa, HI 96746"
@@ -420,6 +423,7 @@ namespace kauaicapstone.Migrations
                         new
                         {
                             ViewLocationId = 2,
+                            IsFavorite = true,
                             Name = "Limahuli Garden & Preserve",
                             UserId = "00000001-ffff-ffff-ffff-ffffffffffff",
                             ViewPointAddress = "5-8291 Kuhio Hwy, Hanalei, HI 96714"
@@ -427,6 +431,7 @@ namespace kauaicapstone.Migrations
                         new
                         {
                             ViewLocationId = 3,
+                            IsFavorite = false,
                             Name = "Kalalau Valley",
                             UserId = "00000001-ffff-ffff-ffff-ffffffffffff",
                             ViewPointAddress = "5-8291 Kuhio Hwy, Hanalei, HI 96714"
@@ -434,6 +439,7 @@ namespace kauaicapstone.Migrations
                         new
                         {
                             ViewLocationId = 4,
+                            IsFavorite = false,
                             Name = "Sleeping Giant Trail",
                             UserId = "00000001-ffff-ffff-ffff-ffffffffffff",
                             ViewPointAddress = "Sleeping Giant, Wailua, HI 96746"
