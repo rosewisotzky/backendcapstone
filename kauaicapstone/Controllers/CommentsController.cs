@@ -9,6 +9,7 @@ using kauaicapstone.Data;
 using kauaicapstone.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using kauaicapstone.Models.ViewModels;
 
 namespace kauaicapstone.Controllers
 
@@ -51,27 +52,33 @@ namespace kauaicapstone.Controllers
         }
 
         // GET: Comments/Create
-        public IActionResult Create()
-        {
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
-            return View();
-        }
+        //public IActionResult Create()
+        //{
+        //    ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
+        //    return View();
+        //}
 
         // POST: Comments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CommentId,UserId,Message,DatePosted,LocationId")] Comment comment)
+        public async Task<IActionResult> Create(LocationCommentViewModel viewModel, int id)
         {
+            ModelState.Remove("User");
+            ModelState.Remove("UserId");
+            ModelState.Remove("Message");
+            ModelState.Remove("ViewLocation");
             if (ModelState.IsValid)
             {
+                var comment = viewModel.Comment;
+                comment.ViewLocationId = id;
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", comment.UserId);
-            return View(comment);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewModel.Comment.UserId);
+            return View(viewModel);
         }
 
         // GET: Comments/Edit/5
