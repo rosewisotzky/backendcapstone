@@ -57,17 +57,22 @@
 
                 }
             }
-         
-                <form asp-action="Create" method="post">
-                    <div class="form-group">
-                        <textarea class="form-control"> </textarea>
-                        <span asp-validation-for="@Model.Comments" class="text-danger"></span>
-                        <idiv> <input type="submit" value="add comment" class="btn btn-primary" /></idiv>
-                    </div>
-                </form>
-            
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <a asp-controller="ViewLocations" asp-action="Favorite" name="ViewLocationId" class="btn btn-primary" asp-route-id="@Model.ViewLocationId"> save to favorite </a>
+                </label>
+            </div>
 
-            </dd>
+            <form asp-action="Create" method="post">
+                <div class="form-group">
+                    <textarea class="form-control"> </textarea>
+                    <span asp-validation-for="@Model.Comments" class="text-danger"></span>
+                    <idiv> <input type="submit" value="add comment" class="btn btn-primary" /></idiv>
+                </div>
+            </form>
+
+
+        </dd>
             </dl>
             
 

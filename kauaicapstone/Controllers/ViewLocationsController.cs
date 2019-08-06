@@ -80,9 +80,54 @@ namespace kauaicapstone.Controllers
 
 
 
+        public async Task<IActionResult> Favorite([FromRoute] int id)
+        {
+            var location = _context.ViewLocation.Find(id);
+            if (id != location.ViewLocationId)
+            {
+                return NotFound();
+            }
 
-        // GET: ViewLocations/Create
-        public IActionResult Create()
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    location.IsFavorite = true;
+                    _context.Update(location);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ViewLocationExists(location.ViewLocationId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", location.UserId);
+            return View(location);
+        }
+
+        //GET Favorites
+        public async Task<IActionResult> FavoriteIndexAsync() { 
+      
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            var applicationDbContext = _context.ViewLocation.Include(l => l.User)
+                .Where(l => l.IsFavorite == true);
+                //.Where(l => l.UserId == currentUser.ToString());
+               
+            return View(applicationDbContext.ToList());
+        }
+    
+    // GET: ViewLocations/Create
+    public IActionResult Create()
         {
             {
                 ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
