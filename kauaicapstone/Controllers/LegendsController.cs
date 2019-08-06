@@ -187,7 +187,7 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EditLegendLocationViewModel viewModel)
+        public async Task<IActionResult> Edit(int id, EditLegendLocationViewModel viewModel, List<int>ViewLocationInput)
         {
             if (id != viewModel.Legend.LegendId)
             {
@@ -199,12 +199,20 @@ namespace kauaicapstone.Controllers
             {
                 try
                 {
-                    var viewLocation = await _context.LegendViewLocation.Where(l => l.LegendId == viewModel.Legend.LegendId).ToListAsync();
-                    foreach (var item in viewLocation)
+                    var legend = viewModel.Legend;
+                    viewModel.LocationIds = ViewLocationInput ;
+                    _context.Legend.Update(legend);
+                    
+                    foreach (var item in ViewLocationInput)
                     {
-                        _context.LegendViewLocation.Update(item);
+                        LegendViewLocation newView = new LegendViewLocation()
+                        {
+                            LegendId = legend.LegendId,
+                            ViewLocationId = item,
+                        };
+                   
+                        _context.Add(newView);
                     }
-                    _context.Update(viewModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
