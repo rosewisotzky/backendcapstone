@@ -36,7 +36,7 @@ namespace kauaicapstone.Controllers
         //GET: PendingLegends
         public async Task<IActionResult> PendingIndex()
         {
-            var applicationDbContext = _context.Legend.Include(l => l.User).Where(l => l.IsApproved == false);
+            var applicationDbContext = _context.Legend.Include(l => l.User).Where(l => l.IsApproved == false).Distinct();
 
 
             return View(await applicationDbContext.ToListAsync());
@@ -91,7 +91,8 @@ namespace kauaicapstone.Controllers
                 .Include(l => l.User)
                 .Include(l => l.LegendViewLocations)
                 .ThenInclude(l => l.ViewLocation)
-                .FirstOrDefaultAsync(m => m.LegendId == id);
+                .FirstOrDefaultAsync(m => m.LegendId == id)
+                ;
             if (legend == null)
             {
                 return NotFound();
@@ -133,12 +134,18 @@ namespace kauaicapstone.Controllers
             if (ModelState.IsValid)
             {
                 var legend = viewModel.Legend;
+                //var legendViewLocations = _context.LegendViewLocation.Include(l => l.Legend.Title).Include(l=> l.ViewLocation.Name).ToList();
+                //var legendViewName = legendViewLocations.Select(l => l.ViewLocation.Name);
+                //var legendTitle = legendViewLocations.Select(l => l.Legend.Title);
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
                 legend.UserId = currentUser.Id;
                 viewModel.LocationIds = ViewLocationInput;
                 _context.Add(legend);
+
                 foreach (var id in ViewLocationInput)
-                {
+                {   
+               
+                    
                     LegendViewLocation newView = new LegendViewLocation()
                     {
                         LegendId = legend.LegendId,
@@ -197,6 +204,8 @@ namespace kauaicapstone.Controllers
             ModelState.Remove("Legend.LegendViewLocations");
             if (ModelState.IsValid)
             {
+                List<LegendViewLocation> viewLocations = await _context.LegendViewLocation.Where(lv => lv.LegendId == id).ToListAsync();
+                viewLocations.ForEach(lv => _context.LegendViewLocation.Remove(lv));
                 try
                 {
                     var legend = viewModel.Legend;

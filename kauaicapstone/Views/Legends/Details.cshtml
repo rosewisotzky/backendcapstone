@@ -32,7 +32,7 @@
                 @Html.DisplayNameFor(model => model.LegendViewLocations)
             </dt>
             <dd class="col-sm-10">
-                @foreach (var item in Model.LegendViewLocations)
+                @foreach (var item in Model.LegendViewLocations.Distinct())
                 {
                     <a asp-controller="ViewLocations" asp-action="Details" asp-route-id="@item.ViewLocation.ViewLocationId">@Html.DisplayFor(modelItem => item.ViewLocation.Name)</a> <br />;
                 }

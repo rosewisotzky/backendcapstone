@@ -54,21 +54,26 @@
                 {
                     <p> @Html.DisplayFor(modelItem => item.Message)</p>;
                     @Html.DisplayFor(modelItem => item.DatePosted) <br />;
+                    <form asp-controller="Comments" asp-action="Delete" asp-route-id="@item.CommentId" >
+                        <input type="submit" value="Delete" class="btn btn-danger" /></form>
+
 
                 }
             }
-         
-                <form asp-controller="Comments" asp-action="Create" method="post">
-                    <div class="form-group">
-                        <textarea class="form-control" asp-for="@Model.Comment.Message"> </textarea>
-                        <span asp-validation-for="@Model.Location.Comments" class="text-danger"></span>
-                        <idiv> <input type="submit" value="add comment" class="btn btn-primary" /></idiv>
-                        <input type="hidden" name="id" asp-for="@Model.Comment.ViewLocationId" value="@Model.Location.ViewLocationId" />
-                    </div>
-                </form>
-            
 
-            </dd>
+            <form asp-controller="Comments" asp-action="Create" method="post">
+                <div class="form-group">
+                    <textarea class="form-control" asp-for="@Model.Comment.Message"> </textarea>
+                    <span asp-validation-for="@Model.Location.Comments" class="text-danger"></span>
+
+
+                    <div> <input type="submit" value="add comment" class="btn btn-primary" /></div>
+                    <input type="hidden" name="id" asp-for="@Model.Comment.ViewLocationId" value="@Model.Location.ViewLocationId" />
+                </div>
+            </form>
+
+
+        </dd>
             </dl>
             
 
