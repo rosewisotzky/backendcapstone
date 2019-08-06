@@ -25,6 +25,10 @@ namespace kauaicapstone.Controllers
             _context = context;
             _userManager = userManager;
         }
+        public IActionResult LocationsDetails()
+        {
+            return this.RedirectToAction("Details", "ViewLocations", "");
+        }
         // GET: Comments
         public async Task<IActionResult> Index()
         {
@@ -63,22 +67,23 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(LocationCommentViewModel viewModel, int id)
+        public async Task<IActionResult> Create(Comment comment, int id)
         {
-            ModelState.Remove("User");
-            ModelState.Remove("UserId");
+            ModelState.Remove("Comment.User");
+            ModelState.Remove("Comment.UserId");
             ModelState.Remove("Message");
-            ModelState.Remove("ViewLocation");
+            ModelState.Remove("Comment.viewLocation");
             if (ModelState.IsValid)
             {
-                var comment = viewModel.Comment;
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                comment.UserId = currentUser.Id;
                 comment.ViewLocationId = id;
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "ViewLocations", new {id = id });
             }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewModel.Comment.UserId);
-            return View(viewModel);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", comment.UserId);
+            return View(comment);
         }
 
         // GET: Comments/Edit/5

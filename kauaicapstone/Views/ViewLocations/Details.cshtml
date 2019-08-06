@@ -60,10 +60,10 @@
          
                 <form asp-controller="Comments" asp-action="Create" method="post">
                     <div class="form-group">
-                        <textarea class="form-control" value="@Model.Comment.Message"> </textarea>
+                        <textarea class="form-control" asp-for="@Model.Comment.Message"> </textarea>
                         <span asp-validation-for="@Model.Location.Comments" class="text-danger"></span>
                         <idiv> <input type="submit" value="add comment" class="btn btn-primary" /></idiv>
-                        <input type="hidden" name="id" asp-for="@Model.Location.ViewLocationId" value="@Model.Location.ViewLocationId" />
+                        <input type="hidden" name="id" asp-for="@Model.Comment.ViewLocationId" value="@Model.Location.ViewLocationId" />
                     </div>
                 </form>
             
