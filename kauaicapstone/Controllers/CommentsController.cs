@@ -140,33 +140,38 @@ namespace kauaicapstone.Controllers
         }
 
         // GET: Comments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var comment = await _context.Comment
-                .Include(c => c.User)
-                .FirstOrDefaultAsync(m => m.CommentId == id);
-            if (comment == null)
-            {
-                return NotFound();
-            }
+        //    var comment = await _context.Comment
+        //        .Include(c => c.User)
+        //        .FirstOrDefaultAsync(m => m.CommentId == id);
+        //    if (comment == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(comment);
-        }
+        //    return View(comment);
+        //}
 
         // POST: Comments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var comment = await _context.Comment.FindAsync(id);
+            var viewlocationId = comment.ViewLocationId;
+            //var viewLocation = await _context.LegendViewLocation.Where(l => l.ViewLocationId == comment.ViewLocationId).ToListAsync();
+            
+
             _context.Comment.Remove(comment);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "ViewLocations", new { id = viewlocationId });
+
         }
 
         private bool CommentExists(int id)
