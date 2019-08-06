@@ -9,6 +9,7 @@ using kauaicapstone.Data;
 using kauaicapstone.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using kauaicapstone.Models.ViewModels;
 
 namespace kauaicapstone.Controllers
 
@@ -23,6 +24,10 @@ namespace kauaicapstone.Controllers
         {
             _context = context;
             _userManager = userManager;
+        }
+        public IActionResult LocationsDetails()
+        {
+            return this.RedirectToAction("Details", "ViewLocations", "");
         }
         // GET: Comments
         public async Task<IActionResult> Index()
@@ -51,24 +56,31 @@ namespace kauaicapstone.Controllers
         }
 
         // GET: Comments/Create
-        public IActionResult Create()
-        {
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
-            return View();
-        }
+        //public IActionResult Create()
+        //{
+        //    ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
+        //    return View();
+        //}
 
         // POST: Comments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CommentId,UserId,Message,DatePosted,LocationId")] Comment comment)
+        public async Task<IActionResult> Create(Comment comment, int id)
         {
+            ModelState.Remove("Comment.User");
+            ModelState.Remove("Comment.UserId");
+            ModelState.Remove("Message");
+            ModelState.Remove("Comment.viewLocation");
             if (ModelState.IsValid)
             {
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                comment.UserId = currentUser.Id;
+                comment.ViewLocationId = id;
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "ViewLocations", new {id = id });
             }
             ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", comment.UserId);
             return View(comment);

@@ -74,8 +74,12 @@ namespace kauaicapstone.Controllers
                 {
                     return NotFound();
                 }
+            LocationCommentViewModel viewModel = new LocationCommentViewModel()
+            {
+                Location = viewLocation
 
-                return View(viewLocation);
+            };
+                return View(viewModel);
             }
 
 
