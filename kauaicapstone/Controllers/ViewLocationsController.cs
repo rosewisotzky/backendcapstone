@@ -102,7 +102,7 @@ namespace kauaicapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LocationsLegendViewModel viewModel, List<int> ViewLocationInput)
         {
-            ModelState.Remove("UserId");
+            ModelState.Remove("ViewLocation.UserId");
             ModelState.Remove("ViewLocation.User");
             if (ModelState.IsValid)
             {
@@ -119,7 +119,11 @@ namespace kauaicapstone.Controllers
                     };
                 }
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(LegendsIndex));
+                if (_userManager.GetUserAsync(User).Result.IsAdmin) {
+                    return RedirectToAction(nameof(Index));
+                } else { 
+                    return RedirectToAction(nameof(LegendsIndex));
+                    }
             }
             ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewModel.ViewLocation.UserId);
             return View(viewModel);

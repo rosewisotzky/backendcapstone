@@ -41,9 +41,11 @@
         <dl>
             @foreach (var item in Model.Location.LegendViewLocations)
             {
+                @if (item.Legend.IsApproved) { 
                 <dd>
                     <a asp-controller="Legends" asp-action="Details" asp-route-id="@item.ViewLocation.ViewLocationId">@Html.DisplayFor(modelItem => item.Legend.Title)</a>
                 </dd>
+                }
             }
             <dd class="col-sm-2">
                 @if (Model.Location.Comments != null)
