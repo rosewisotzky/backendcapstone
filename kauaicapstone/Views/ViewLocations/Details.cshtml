@@ -43,7 +43,7 @@
             {
                 @if (item.Legend.IsApproved) { 
                 <dd>
-                    <a asp-controller="Legends" asp-action="Details" asp-route-id="@item.ViewLocation.ViewLocationId">@Html.DisplayFor(modelItem => item.Legend.Title)</a>
+                    <a asp-controller="Legends" asp-action="Details" asp-route-id="@item.Legend.LegendId">@Html.DisplayFor(modelItem => item.Legend.Title)</a>
                 </dd>
                 }
             }
