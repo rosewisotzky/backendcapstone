@@ -28,7 +28,7 @@
                 <input asp-for="Legend.Source" class="form-control" />
                 <span asp-validation-for="Legend.Source" class="text-danger"></span>
             </div>
-           
+
             <div class="form-group">
                 <label asp-for="Legend.IsApproved" class="control-label"></label>
                 <input type="checkbox" asp-for="Legend.IsApproved" class="form-control" />
@@ -46,6 +46,14 @@
             <div class="form-group">
                 <input type="submit" value="submit" class="btn btn-primary" />
             </div>
+            @if (Model != null)
+            {
+                <script type="text/javascript">
+            $(function () {
+                alert("your legend has been submitted and is awaiting approval");
+            });
+                </script>
+            }
         </form>
     </div>
 </div>

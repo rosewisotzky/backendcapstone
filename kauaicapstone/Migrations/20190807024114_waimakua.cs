@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace kauaicapstone.Migrations
 {
-    public partial class newAddd : Migration
+    public partial class waimakua : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -258,12 +258,12 @@ namespace kauaicapstone.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsAdmin", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "867617ee-cbf9-42b0-a544-90601d1f5b92", "admin@admin.com", true, "admin", true, "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEM+yQwnZsPwCLxsAr6bgnkww1vfI0V/5Y8VP792RcR9IYBxj7LxHwXr3iiyEa182hA==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
+                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "b359c777-4a86-4d4d-9bba-5408642affad", "admin@admin.com", true, "admin", true, "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEEwxB0iK6yJkbeJhzsrixKd5GGGWJB2iVzDJ3yTcQM7q0GVZg2ojv20QH9KvzFh8TA==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsAdmin", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00000001-ffff-ffff-ffff-ffffffffffff", 0, "ea75bdc0-0612-426b-8f70-4eaac4414a51", "rose@rose.com", true, "Rose", false, "Wisotzky", false, null, "ROSE@ROSE.COM", "ROSE@ROSE.COM", "AQAAAAEAACcQAAAAEFYPpGXuUDR1prs0zOTTgm9BoEVH7JYhRPG5YpwDhmZCdNOnwAasnjOz9tQSrnuU4Q==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794578", false, "rose@rose.com" });
+                values: new object[] { "00000001-ffff-ffff-ffff-ffffffffffff", 0, "2d63d948-1fda-4fae-b072-6ddb56c0504c", "rose@rose.com", true, "Rose", false, "Wisotzky", false, null, "ROSE@ROSE.COM", "ROSE@ROSE.COM", "AQAAAAEAACcQAAAAEPrhxn9Rr0IQxOOCHr5lXrtmymBb+PW9W2PWQr6mh8u99gtdYxtLd7NT4KOiLHIg6Q==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794578", false, "rose@rose.com" });
 
             migrationBuilder.InsertData(
                 table: "Legend",
