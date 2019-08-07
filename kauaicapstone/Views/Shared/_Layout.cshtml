@@ -20,6 +20,8 @@
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
+@if (ViewData["Title"].ToString() != "Welcome")
+{
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -94,4 +96,15 @@
 
         @RenderSection("Scripts", required: false)
     </body>
+} else
+{
+<body>
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+</body>
+}
 </html>

@@ -15,6 +15,10 @@ namespace kauaicapstone.Controllers
             return View();
         }
 
+        public IActionResult Welcome()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
