@@ -44,7 +44,7 @@ namespace kauaicapstone.Data
 
             modelBuilder.Entity<ViewLocation>()
            .HasMany(l => l.Comments)
-           .WithOne(o => o.viewLocation)
+           .WithOne(o => o.ViewLocation)
 
            .OnDelete(DeleteBehavior.Restrict);
 

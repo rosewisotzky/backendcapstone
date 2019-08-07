@@ -17,7 +17,7 @@ namespace kauaicapstone.Controllers
     public class ViewLocationsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
 
 
@@ -31,7 +31,7 @@ namespace kauaicapstone.Controllers
         }
 
 
-        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
 
         public IActionResult LegendsIndex()
         {

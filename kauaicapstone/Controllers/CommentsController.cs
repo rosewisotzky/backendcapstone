@@ -80,7 +80,7 @@ namespace kauaicapstone.Controllers
                 comment.ViewLocationId = id;
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "ViewLocations", new {id = id });
+                return RedirectToAction("Details", "ViewLocations", new { id });
             }
             ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", comment.UserId);
             return View(comment);

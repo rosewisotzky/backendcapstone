@@ -19,7 +19,7 @@ namespace kauaicapstone.Models
         [Required]
         public DateTime DatePosted { get; set;  }
         [Required]
-        public ViewLocation viewLocation { get; set;  }
+        public ViewLocation ViewLocation { get; set;  }
         public int ViewLocationId { get; set; }
     }
 }
