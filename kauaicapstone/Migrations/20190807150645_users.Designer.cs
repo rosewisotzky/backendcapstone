@@ -10,8 +10,8 @@ using kauaicapstone.Data;
 namespace kauaicapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190805151101_Pending")]
-    partial class Pending
+    [Migration("20190807150645_users")]
+    partial class users
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -150,13 +150,11 @@ namespace kauaicapstone.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired();
+                    b.Property<string>("FirstName");
 
                     b.Property<bool>("IsAdmin");
 
-                    b.Property<string>("LastName")
-                        .IsRequired();
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -198,7 +196,7 @@ namespace kauaicapstone.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d2b12c57-375e-40a2-a3b4-c7cb93cad6c8",
+                            ConcurrencyStamp = "476eccdd-e852-42b5-ab5f-cad7bbad802a",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -207,7 +205,7 @@ namespace kauaicapstone.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPjsawpI/7x7gb1KqcvgZUZHW2aTmauwRwSBulPyQUIfeaCGB3dMphoVgu37EOdwow==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELyheGaDt0XVblDvdmK7ovlU6fYBfmRk7Aw9MEHG4SYT0PZ5FuKe4qTVj3jodu9NKw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -217,7 +215,7 @@ namespace kauaicapstone.Migrations
                         {
                             Id = "00000001-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "232a96e4-537e-4307-bcbe-94324365d6cf",
+                            ConcurrencyStamp = "2e3c086f-5e68-4675-b8cc-ecf114060475",
                             Email = "rose@rose.com",
                             EmailConfirmed = true,
                             FirstName = "Rose",
@@ -226,7 +224,7 @@ namespace kauaicapstone.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ROSE@ROSE.COM",
                             NormalizedUserName = "ROSE@ROSE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB+IOhcGbAyBWTGdcy6GVxYe71n0+axAyu3xipMcf+jrb75uBznhqYzYzvZo/dqGBg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIcn4u4jvCoMejxbkUQPJYCQpDQfsSdEF+jwp5eeQiowLBJRUjp5CejEsYYJgLHODQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
                             TwoFactorEnabled = false,
@@ -494,7 +492,7 @@ namespace kauaicapstone.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("kauaicapstone.Models.ViewLocation", "viewLocation")
+                    b.HasOne("kauaicapstone.Models.ViewLocation", "ViewLocation")
                         .WithMany("Comments")
                         .HasForeignKey("ViewLocationId")
                         .OnDelete(DeleteBehavior.Restrict);

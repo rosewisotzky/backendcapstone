@@ -41,8 +41,8 @@ namespace kauaicapstone.Controllers
         public async Task<IActionResult> Index()
         {
 
-        /*    var applicationDbContext = _context.ViewLocation.Include(v => v.Name).take(v => v.ViewPointAddress)*/
-            
+            /*    var applicationDbContext = _context.ViewLocation.Include(v => v.Name).take(v => v.ViewPointAddress)*/
+
             return View(await _context.ViewLocation.ToListAsync());
         }
 
@@ -51,36 +51,37 @@ namespace kauaicapstone.Controllers
             ViewData["CurrentFilter"] = searchString;
 
 
-            var applicationDbContext = _context.ViewLocation.Where(v=>v.Name.Contains(searchString));
+            var applicationDbContext = _context.ViewLocation.Where(v => v.Name.Contains(searchString));
             return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: ViewLocations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            
-                if (id == null)
-                {
-                    return NotFound();
-                }
 
-                var viewLocation = await _context.ViewLocation
-                    .Include(v => v.User)
-                    .Include(v => v.Comments)
-                    .Include(v => v.LegendViewLocations)
-                    .ThenInclude(v => v.Legend)
-                    .FirstOrDefaultAsync(m => m.ViewLocationId == id);
-                if (viewLocation == null)
-                {
-                    return NotFound();
-                }
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var viewLocation = await _context.ViewLocation
+                .Include(v => v.User)
+                .Include(v => v.Comments)
+                .ThenInclude(v => v.User)
+                .Include(v => v.LegendViewLocations)
+                .ThenInclude(v => v.Legend)
+                .FirstOrDefaultAsync(m => m.ViewLocationId == id);
+            if (viewLocation == null)
+            {
+                return NotFound();
+            }
+            
             LocationCommentViewModel viewModel = new LocationCommentViewModel()
             {
                 Location = viewLocation
-
             };
-                return View(viewModel);
-            }
+            return View(viewModel);
+        }
 
 
 
@@ -91,7 +92,7 @@ namespace kauaicapstone.Controllers
             {
                 ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
                 return View();
-            } 
+            }
         }
 
         // POST: ViewLocations/Create
@@ -101,7 +102,7 @@ namespace kauaicapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LocationsLegendViewModel viewModel, List<int> ViewLocationInput)
         {
-            ModelState.Remove("UserId");
+            ModelState.Remove("ViewLocation.UserId");
             ModelState.Remove("ViewLocation.User");
             if (ModelState.IsValid)
             {
@@ -110,15 +111,19 @@ namespace kauaicapstone.Controllers
                 viewModel.ViewLocation.User = currentUser;
                 viewModel.ViewLocation.UserId = currentUser.Id;
                 _context.Add(location);
-                foreach (var id in ViewLocationInput) { 
-                LegendViewLocation newView = new LegendViewLocation()
-                {
-                    ViewLocationId = location.ViewLocationId,
-                   
-                };
-            }
+                foreach (var id in ViewLocationInput) {
+                    LegendViewLocation newView = new LegendViewLocation()
+                    {
+                        ViewLocationId = location.ViewLocationId,
+
+                    };
+                }
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(LegendsIndex));
+                if (_userManager.GetUserAsync(User).Result.IsAdmin) {
+                    return RedirectToAction(nameof(Index));
+                } else { 
+                    return RedirectToAction(nameof(LegendsIndex));
+                    }
             }
             ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewModel.ViewLocation.UserId);
             return View(viewModel);
@@ -127,19 +132,25 @@ namespace kauaicapstone.Controllers
         // GET: ViewLocations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (_userManager.GetUserAsync(User).Result.IsAdmin)
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var viewLocation = await _context.ViewLocation.FindAsync(id);
+                if (viewLocation == null)
+                {
+                    return NotFound();
+                }
+                ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewLocation.UserId);
+                return View(viewLocation);
+        } else { 
+        return NotFound();
+    }
             }
 
-            var viewLocation = await _context.ViewLocation.FindAsync(id);
-            if (viewLocation == null)
-            {
-                return NotFound();
-            }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewLocation.UserId);
-            return View(viewLocation);
-        }
 
         // POST: ViewLocations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -148,34 +159,40 @@ namespace kauaicapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ViewLocationId,Name,ViewPointAddress,UserId")] ViewLocation viewLocation)
         {
-            if (id != viewLocation.ViewLocationId)
+            if (_userManager.GetUserAsync(User).Result.IsAdmin)
             {
-                return NotFound();
-            }
+                if (id != viewLocation.ViewLocationId)
+                {
+                    return NotFound();
+                }
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(viewLocation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ViewLocationExists(viewLocation.ViewLocationId))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(viewLocation);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!ViewLocationExists(viewLocation.ViewLocationId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewLocation.UserId);
-            return View(viewLocation);
-        }
+                ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewLocation.UserId);
+                return View(viewLocation);
+        } else {
+        return NotFound();
+    }
+}
+
 
         // GET: ViewLocations/Delete/5
         public async Task<IActionResult> Delete(int? id)

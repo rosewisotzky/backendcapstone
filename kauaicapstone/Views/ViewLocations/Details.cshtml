@@ -1,4 +1,7 @@
 ﻿@model kauaicapstone.Models.ViewModels.LocationCommentViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
 
 @{
     ViewData["Title"] = "Details";
@@ -22,12 +25,7 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Location.ViewPointAddress)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Location.User)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Location.User.Id)
-        </dd>
+
         <dt class="col-sm-2">
             @Html.Name("Associated Legends")
         </dt>
@@ -43,43 +41,55 @@
         <dl>
             @foreach (var item in Model.Location.LegendViewLocations)
             {
+                @if (item.Legend.IsApproved) { 
                 <dd>
-                    <a asp-controller="Legends" asp-action="Details" asp-route-id="@item.ViewLocation.ViewLocationId">@Html.DisplayFor(modelItem => item.Legend.Title)</a>
+                    <a asp-controller="Legends" asp-action="Details" asp-route-id="@item.Legend.LegendId">@Html.DisplayFor(modelItem => item.Legend.Title)</a>
                 </dd>
-            }
-        <dd class="col-sm-2">
-            @if (Model.Location.Comments != null)
-            {
-                @foreach (var item in Model.Location.Comments)
-                {
-                    <p> @Html.DisplayFor(modelItem => item.Message)</p>;
-                    @Html.DisplayFor(modelItem => item.DatePosted) <br />;
-                    <form asp-controller="Comments" asp-action="Delete" asp-route-id="@item.CommentId" >
-                        <input type="submit" value="Delete" class="btn btn-danger" /></form>
-
-
                 }
             }
+            <dd class="col-sm-2">
+                @if (Model.Location.Comments != null)
+                {
+                    @foreach (var i in Model.Location.Comments)
+                    {
+                       <p> @Html.DisplayFor(modelItem => i.Message)</p>;
+                       <p> @Html.DisplayFor(modelItem => i.DatePosted) </p>;
+                       <p> @Html.DisplayFor(modelItem => i.User.Email) </p>;
 
-            <form asp-controller="Comments" asp-action="Create" method="post">
-                <div class="form-group">
-                    <textarea class="form-control" asp-for="@Model.Comment.Message"> </textarea>
-                    <span asp-validation-for="@Model.Location.Comments" class="text-danger"></span>
+                        var currentUser = await SignInManager.UserManager.GetUserAsync(User);
+                        @if (currentUser.Id == i.UserId ||currentUser.IsAdmin )
+                        {
+                         <form asp-controller = "Comments" asp-action = "Delete" asp-route-id = "@i.CommentId" >
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                        </form>
+                            }
+
+                        }
+                }
+
+                <form asp-controller="Comments" asp-action="Create" method="post">
+                    <div class="form-group">
+                        <textarea class="form-control" asp-for="@Model.Comment.Message"> </textarea>
+                        <span asp-validation-for="@Model.Location.Comments" class="text-danger"></span>
 
 
-                    <div> <input type="submit" value="add comment" class="btn btn-primary" /></div>
-                    <input type="hidden" name="id" asp-for="@Model.Comment.ViewLocationId" value="@Model.Location.ViewLocationId" />
-                </div>
-            </form>
+                        <div> <input type="submit" value="add comment" class="btn btn-primary" /></div>
+                        <input type="hidden" name="id" asp-for="@Model.Comment.ViewLocationId" value="@Model.Location.ViewLocationId" />
+                    </div>
+                </form>
 
 
-        </dd>
-            </dl>
-            
+            </dd>
+        </dl>
 
-</div>
+
+    </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Location.ViewLocationId">Edit</a> |
+    @if (UserManager.GetUserAsync(User).Result.IsAdmin)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Location.ViewLocationId">Edit</a>
+        <a asp-action="Delete" asp-route-id="@Model.Location.ViewLocationId">Delete</a>
+    }
     <a asp-action="Index">Back to List</a>
 </div>
