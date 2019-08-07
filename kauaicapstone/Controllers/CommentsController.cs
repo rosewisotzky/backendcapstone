@@ -77,6 +77,7 @@ namespace kauaicapstone.Controllers
             {
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
                 comment.UserId = currentUser.Id;
+                
                 comment.ViewLocationId = id;
                 _context.Add(comment);
                 await _context.SaveChangesAsync();

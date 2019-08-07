@@ -50,11 +50,12 @@
                 {
                     @foreach (var item in Model.Location.Comments)
                     {
-                        <p> @Html.DisplayFor(modelItem => item.Message)</p>;
-                        @Html.DisplayFor(modelItem => item.DatePosted) <br />;
-                        @Html.DisplayFor(modelItem => item.User.UserName) <br />;
-                        var currentUser = SignInManager.UserManager.GetUserId(User);
-                        @if (currentUser == item.UserId)
+                       <p> @Html.DisplayFor(modelItem => item.Message)</p>;
+                       <p> @Html.DisplayFor(modelItem => item.DatePosted) </p>;
+                       <p> @Html.DisplayFor(modelItem => item.User.Email) </p>;
+
+                        var currentUser = await SignInManager.UserManager.GetUserAsync(User);
+                        @if (currentUser.Id == item.UserId ||currentUser.IsAdmin )
                         {
                          <form asp-controller = "Comments" asp-action = "Delete" asp-route-id = "@item.CommentId" >
                         <input type="submit" value="Delete" class="btn btn-danger" />
@@ -83,6 +84,10 @@
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Location.ViewLocationId">Edit</a> |
+    @if (UserManager.GetUserAsync(User).Result.IsAdmin)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Location.ViewLocationId">Edit</a>
+        <a asp-action="Delete" asp-route-id="@Model.Location.ViewLocationId">Delete</a>
+    }
     <a asp-action="Index">Back to List</a>
 </div>
