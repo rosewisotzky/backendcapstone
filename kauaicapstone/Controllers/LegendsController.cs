@@ -43,7 +43,7 @@ namespace kauaicapstone.Controllers
 
         }
         //GET: Approved Legends
-        
+
         public async Task<IActionResult> Approve([FromRoute] int id)
         {
             var legend = _context.Legend.Find(id);
@@ -51,12 +51,12 @@ namespace kauaicapstone.Controllers
             {
                 return NotFound();
             }
-         
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    
+
                     legend.IsApproved = true;
                     _context.Update(legend);
                     await _context.SaveChangesAsync();
@@ -106,10 +106,10 @@ namespace kauaicapstone.Controllers
         {
             LocationsLegendViewModel location = new LocationsLegendViewModel() {
                 AvailableLocations = _context.ViewLocation.Include(l => l.User).ToList()
-        };
+            };
 
-            
-           
+
+
             return View(location);
         }
         //GET: Legends/CreateForm
@@ -118,7 +118,7 @@ namespace kauaicapstone.Controllers
             CreateLegendViewModel viewModel = new CreateLegendViewModel()
             {
                 LocationIds = ViewLocationInput
-        };
+            };
             return View(viewModel);
         }
         // POST: Legends/Create
@@ -126,7 +126,7 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create (EditLegendLocationViewModel viewModel, List<int> ViewLocationInput)
+        public async Task<IActionResult> Create(EditLegendLocationViewModel viewModel, List<int> ViewLocationInput)
         {
             ModelState.Remove("Legend.UserId");
             ModelState.Remove("ViewLocationInput");
@@ -143,9 +143,9 @@ namespace kauaicapstone.Controllers
                 _context.Add(legend);
 
                 foreach (var id in ViewLocationInput)
-                {   
-               
-                    
+                {
+
+
                     LegendViewLocation newView = new LegendViewLocation()
                     {
                         LegendId = legend.LegendId,
@@ -153,41 +153,47 @@ namespace kauaicapstone.Controllers
                     };
                     _context.Add(newView);
                 }
-                
-                
+
+
                 await _context.SaveChangesAsync();
-                
+
                 return RedirectToAction(nameof(Index));
             }
-           
+
             return View(viewModel);
         }
 
         // GET: Legends/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (_userManager.GetUserAsync(User).Result.IsAdmin) 
+    {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+                var viewLocationList = _context.LegendViewLocation.Where(lv => lv.LegendId == id).Select(lv => lv.ViewLocationId).ToList();
+
+                EditLegendLocationViewModel location = new EditLegendLocationViewModel()
+                {
+                    AvailableLocations = _context.ViewLocation.Include(l => l.User).ToList(),
+                    Legend = await _context.Legend.FindAsync(id),
+                    LocationIds = viewLocationList
+
+                };
+
+
+
+                if (location == null)
+                {
+                    return NotFound();
+                }
+                ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", location.Legend.UserId);
+                return View(location);
+            } else
             {
                 return NotFound();
             }
-            var viewLocationList = _context.LegendViewLocation.Where(lv => lv.LegendId == id).Select(lv => lv.ViewLocationId).ToList();
-
-            EditLegendLocationViewModel location = new EditLegendLocationViewModel()
-            {
-                AvailableLocations = _context.ViewLocation.Include(l => l.User).ToList(),
-                Legend = await _context.Legend.FindAsync(id),
-                LocationIds = viewLocationList
-
-            };
-             
-           
-            
-            if (location == null)
-            {
-                return NotFound();
-            }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", location.Legend.UserId);
-            return View(location);
         }
 
         // POST: Legends/Edit/5
@@ -195,52 +201,58 @@ namespace kauaicapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EditLegendLocationViewModel viewModel, List<int>ViewLocationInput)
+        public async Task<IActionResult> Edit(int id, EditLegendLocationViewModel viewModel, List<int> ViewLocationInput)
         {
-            if (id != viewModel.Legend.LegendId)
+            if (_userManager.GetUserAsync(User).Result.IsAdmin)
             {
-                return NotFound();
-            }
-            ModelState.Remove("User");
-            ModelState.Remove("Legend.LegendViewLocations");
-            if (ModelState.IsValid)
-            {
-                List<LegendViewLocation> viewLocations = await _context.LegendViewLocation.Where(lv => lv.LegendId == id).ToListAsync();
-                viewLocations.ForEach(lv => _context.LegendViewLocation.Remove(lv));
-                try
+                if (id != viewModel.Legend.LegendId)
                 {
-                    var legend = viewModel.Legend;
-                    viewModel.LocationIds = ViewLocationInput ;
-                    _context.Legend.Update(legend);
-                    
-                    foreach (var item in ViewLocationInput)
+                    return NotFound();
+                }
+                ModelState.Remove("User");
+                ModelState.Remove("Legend.LegendViewLocations");
+                if (ModelState.IsValid)
+                {
+                    List<LegendViewLocation> viewLocations = await _context.LegendViewLocation.Where(lv => lv.LegendId == id).ToListAsync();
+                    viewLocations.ForEach(lv => _context.LegendViewLocation.Remove(lv));
+                    try
                     {
-                        LegendViewLocation newView = new LegendViewLocation()
+                        var legend = viewModel.Legend;
+                        viewModel.LocationIds = ViewLocationInput;
+                        _context.Legend.Update(legend);
+
+                        foreach (var item in ViewLocationInput)
                         {
-                            LegendId = legend.LegendId,
-                            ViewLocationId = item,
-                        };
-                   
-                        _context.Add(newView);
+                            LegendViewLocation newView = new LegendViewLocation()
+                            {
+                                LegendId = legend.LegendId,
+                                ViewLocationId = item,
+                            };
+
+                            _context.Add(newView);
+                        }
+                        await _context.SaveChangesAsync();
                     }
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LegendExists(viewModel.Legend.LegendId))
+                    catch (DbUpdateConcurrencyException)
                     {
-                        return NotFound();
+                        if (!LegendExists(viewModel.Legend.LegendId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    return RedirectToAction(nameof(PendingIndex));
                 }
-                return RedirectToAction(nameof(Index));
+                ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewModel.Legend.UserId);
+                return View(viewModel);
+        } else {
+                return NotFound();
+    }
             }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", viewModel.Legend.UserId);
-            return View(viewModel);
-        }
+
 
         // GET: Legends/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -275,7 +287,7 @@ namespace kauaicapstone.Controllers
             }
             _context.Legend.Remove(legend);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(PendingIndex));
         }
 
         private bool LegendExists(int id)

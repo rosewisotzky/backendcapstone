@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace kauaicapstone.Migrations
 {
-    public partial class waimakua : Migration
+    public partial class users : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,8 +41,8 @@ namespace kauaicapstone.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
                     IsAdmin = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -258,12 +258,12 @@ namespace kauaicapstone.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsAdmin", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "b359c777-4a86-4d4d-9bba-5408642affad", "admin@admin.com", true, "admin", true, "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEEwxB0iK6yJkbeJhzsrixKd5GGGWJB2iVzDJ3yTcQM7q0GVZg2ojv20QH9KvzFh8TA==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
+                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "476eccdd-e852-42b5-ab5f-cad7bbad802a", "admin@admin.com", true, "admin", true, "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAELyheGaDt0XVblDvdmK7ovlU6fYBfmRk7Aw9MEHG4SYT0PZ5FuKe4qTVj3jodu9NKw==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsAdmin", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00000001-ffff-ffff-ffff-ffffffffffff", 0, "2d63d948-1fda-4fae-b072-6ddb56c0504c", "rose@rose.com", true, "Rose", false, "Wisotzky", false, null, "ROSE@ROSE.COM", "ROSE@ROSE.COM", "AQAAAAEAACcQAAAAEPrhxn9Rr0IQxOOCHr5lXrtmymBb+PW9W2PWQr6mh8u99gtdYxtLd7NT4KOiLHIg6Q==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794578", false, "rose@rose.com" });
+                values: new object[] { "00000001-ffff-ffff-ffff-ffffffffffff", 0, "2e3c086f-5e68-4675-b8cc-ecf114060475", "rose@rose.com", true, "Rose", false, "Wisotzky", false, null, "ROSE@ROSE.COM", "ROSE@ROSE.COM", "AQAAAAEAACcQAAAAEIcn4u4jvCoMejxbkUQPJYCQpDQfsSdEF+jwp5eeQiowLBJRUjp5CejEsYYJgLHODQ==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794578", false, "rose@rose.com" });
 
             migrationBuilder.InsertData(
                 table: "Legend",
