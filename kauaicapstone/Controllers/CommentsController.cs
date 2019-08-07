@@ -76,8 +76,10 @@ namespace kauaicapstone.Controllers
             if (ModelState.IsValid)
             {
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                comment.User = currentUser;
                 comment.UserId = currentUser.Id;
-                
+                //var commentUser = currentUser;
+                //ViewBag.commentEmail = commentUser.Email;
                 comment.ViewLocationId = id;
                 _context.Add(comment);
                 await _context.SaveChangesAsync();

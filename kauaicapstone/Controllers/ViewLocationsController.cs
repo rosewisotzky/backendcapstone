@@ -67,6 +67,7 @@ namespace kauaicapstone.Controllers
             var viewLocation = await _context.ViewLocation
                 .Include(v => v.User)
                 .Include(v => v.Comments)
+                .ThenInclude(v => v.User)
                 .Include(v => v.LegendViewLocations)
                 .ThenInclude(v => v.Legend)
                 .FirstOrDefaultAsync(m => m.ViewLocationId == id);
@@ -74,10 +75,10 @@ namespace kauaicapstone.Controllers
             {
                 return NotFound();
             }
+            
             LocationCommentViewModel viewModel = new LocationCommentViewModel()
             {
                 Location = viewLocation
-
             };
             return View(viewModel);
         }

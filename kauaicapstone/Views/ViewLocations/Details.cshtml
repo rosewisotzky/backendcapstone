@@ -48,16 +48,16 @@
             <dd class="col-sm-2">
                 @if (Model.Location.Comments != null)
                 {
-                    @foreach (var item in Model.Location.Comments)
+                    @foreach (var i in Model.Location.Comments)
                     {
-                       <p> @Html.DisplayFor(modelItem => item.Message)</p>;
-                       <p> @Html.DisplayFor(modelItem => item.DatePosted) </p>;
-                       <p> @Html.DisplayFor(modelItem => item.User.Email) </p>;
+                       <p> @Html.DisplayFor(modelItem => i.Message)</p>;
+                       <p> @Html.DisplayFor(modelItem => i.DatePosted) </p>;
+                       <p> @Html.DisplayFor(modelItem => i.User.Email) </p>;
 
                         var currentUser = await SignInManager.UserManager.GetUserAsync(User);
-                        @if (currentUser.Id == item.UserId ||currentUser.IsAdmin )
+                        @if (currentUser.Id == i.UserId ||currentUser.IsAdmin )
                         {
-                         <form asp-controller = "Comments" asp-action = "Delete" asp-route-id = "@item.CommentId" >
+                         <form asp-controller = "Comments" asp-action = "Delete" asp-route-id = "@i.CommentId" >
                         <input type="submit" value="Delete" class="btn btn-danger" />
                         </form>
                             }
