@@ -5,12 +5,17 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+
+}
+.navbar {
+    background-color: #fefff2;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
   font-size: 14px;
+  /*background-color: seashell;*/
 }
 @media (min-width: 768px) {
   html {
@@ -42,8 +47,9 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-color: #fefff2;
 }
 .footer {
   position: absolute;
@@ -57,16 +63,39 @@ body {
 
 .search-header {
     position: relative;
-    text-align: center;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
-.welcome-header{
-    display:flex;
-    align-items: center;
-    background-color: darkseagreen;
-
+.welcome-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    margin-top: 33%;
+  
+    font-family: 'Palatino Linotype';
+    /*background-color: #fefff2;*/
+    /*position: absolute;*/
 }
-.welcome-description{
+.welcome-description {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    margin-top: auto;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: large;
+    /*background-color: #fefff2;*/
+    /*position: absolute;*/
+}
+.display-4{
+    color: darkseagreen;
+}
+.enter-tag {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: flex-start;
 
 }

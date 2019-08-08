@@ -10,6 +10,7 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/waimakua.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -19,12 +20,14 @@
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/waimakua.css" />
 </head>
 @if (ViewData["Title"].ToString() != "Welcome")
 {
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3*@
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">waimakua</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -43,7 +46,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Legends" asp-action="Index">legends</a>
                         </li>
-                    
+
 
 
                     </ul>
@@ -53,14 +56,17 @@
             @if (ViewData["Title"].ToString() == "Index")
             {
                 <div class="baby-search">
-                    <p>where would you like to go?</p>
+                    <div class="baby-search-text">
+                        <p>where would you like to go?</p> <br/>
+                    </div>
+                    
                     <form asp-controller="ViewLocations" asp-action="SearchIndex" method="get">
                         <input type="text" placeholder="search locations" name="searchString" value="@ViewData["currentFilter"]" id="searchString" />
                         <input type="submit" value="search" class="btn btn-sm btn-info" asp-area="" asp-controller="ViewLocations" asp-action="SearchIndex" />
                     </form>
                 </div>
             }
-        </header>
+    </header>
         <div class="container">
             <partial name="_CookieConsentPartial" />
             <main role="main" class="pb-3">

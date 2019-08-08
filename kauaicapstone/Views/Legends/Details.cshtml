@@ -7,22 +7,14 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Legend</h4>
-    <hr />
+ 
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
+        <dr />
+        <dd class="legend-title">
             @Html.DisplayFor(model => model.Title)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
+        <dd class="legend-description">
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-2">
@@ -42,12 +34,12 @@
 
         </dd>
     </dl>
-</div>
+
 <div>
     @if (UserManager.GetUserAsync(User).Result.IsAdmin)
     {
         <a asp-action="Edit" asp-route-id="@Model.LegendId">Edit</a> 
         <a asp-action="Delete" asp-route-id="@Model.LegendId">Delete</a> 
     }
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="PendingIndex">Back to List</a>
 </div>

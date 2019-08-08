@@ -7,23 +7,25 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h2>Locations</h2>
+    <div class="location-header">
+        
+        <h5>locations</h5>
+    </div>
 @if (UserManager.GetUserAsync(User).Result.IsAdmin)
 {
-    <p>
-        <a asp-action="Create">Create New</a>
+    <p class="create-link">
+        <a asp-action="Create">create new</a>
     </p>
 }
 <div class="table">
-    <dl>
+    @*<dl>
 
         <dd>
             @Html.DisplayNameFor(model => model.Name)
         </dd>
 
 
-    </dl>
+    </dl>*@
     <div>
         @foreach (var item in Model)
         {

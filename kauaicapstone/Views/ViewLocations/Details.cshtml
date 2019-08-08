@@ -11,7 +11,7 @@
 
 <div>
     <h4>location details</h4>
-    <hr />
+
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Location.Name)
@@ -27,64 +27,78 @@
         </dd>
 
         <dt class="col-sm-2">
-            @Html.Name("Associated Legends")
+            <p>legends</p>
+        <dd class="col-sm-2">
+            <div>
+                <dl>
+                    @foreach (var item in Model.Location.LegendViewLocations)
+                    {
+                        @if (item.Legend.IsApproved)
+                        {
+                            <dd>
+                                <a asp-controller="Legends" asp-action="Details" asp-route-id="@item.Legend.LegendId">@Html.DisplayFor(modelItem => item.Legend.Title)</a>
+                            </dd>
+                        }
+                    }
+
+                </dl>
+
+
+            </div>
+</dd>
+</div>
         </dt>
-        <dt class="col-sm-2">
-            @Html.Name("Comments")
-        </dt>
+<dt class="col-sm-2">
+    <p> comments</p>
+    <dd class="col-sm-2">
+
+        @if (Model.Location.Comments != null)
+        {
+            var currentUser = await SignInManager.UserManager.GetUserAsync(User);
+        <div class="comments-container">
+            @foreach (var i in Model.Location.Comments)
+
+            {
+                <div class="card" style="width: 12rem; height: 15rem;">
+                    <div class="card-body">
+
+                        <p class="card-text"> @Html.DisplayFor(modelItem => i.Message)</p>
+                        <p class="card-text"> @Html.DisplayFor(modelItem => i.DatePosted) </p>
+                        <p class="card-text"> @Html.DisplayFor(modelItem => i.User.Email) </p>
+
+                        @if (currentUser.Id == i.UserId || currentUser.IsAdmin)
+                        {
+                            <form asp-controller="Comments" asp-action="Delete" asp-route-id="@i.CommentId">
+                                <input type="submit" value="Delete" class="btn btn-danger" />
+                            </form>
+                        }
+
+                    </div>
+                </div>
+            }
+        </div>
+        }
+
+        <form asp-controller="Comments" asp-action="Create" method="post">
+            <div class="form-group">
+                <textarea class="form-control" asp-for="@Model.Comment.Message"> </textarea>
+                <span asp-validation-for="@Model.Location.Comments" class="text-danger"></span>
+
+
+                <div> <input type="submit" value="add comment" class="btn btn-primary" /></div>
+                <input type="hidden" name="id" asp-for="@Model.Comment.ViewLocationId" value="@Model.Location.ViewLocationId" />
+            </div>
+        </form>
+
+
+    </dd>
+</dt>
 
 
 
 
     </dl>
-    <div>
-        <dl>
-            @foreach (var item in Model.Location.LegendViewLocations)
-            {
-                @if (item.Legend.IsApproved) { 
-                <dd>
-                    <a asp-controller="Legends" asp-action="Details" asp-route-id="@item.Legend.LegendId">@Html.DisplayFor(modelItem => item.Legend.Title)</a>
-                </dd>
-                }
-            }
-            <dd class="col-sm-2">
-                @if (Model.Location.Comments != null)
-                {
-                    @foreach (var i in Model.Location.Comments)
-                    {
-                       <p> @Html.DisplayFor(modelItem => i.Message)</p>;
-                       <p> @Html.DisplayFor(modelItem => i.DatePosted) </p>;
-                       <p> @Html.DisplayFor(modelItem => i.User.Email) </p>;
 
-                        var currentUser = await SignInManager.UserManager.GetUserAsync(User);
-                        @if (currentUser.Id == i.UserId ||currentUser.IsAdmin )
-                        {
-                         <form asp-controller = "Comments" asp-action = "Delete" asp-route-id = "@i.CommentId" >
-                        <input type="submit" value="Delete" class="btn btn-danger" />
-                        </form>
-                            }
-
-                        }
-                }
-
-                <form asp-controller="Comments" asp-action="Create" method="post">
-                    <div class="form-group">
-                        <textarea class="form-control" asp-for="@Model.Comment.Message"> </textarea>
-                        <span asp-validation-for="@Model.Location.Comments" class="text-danger"></span>
-
-
-                        <div> <input type="submit" value="add comment" class="btn btn-primary" /></div>
-                        <input type="hidden" name="id" asp-for="@Model.Comment.ViewLocationId" value="@Model.Location.ViewLocationId" />
-                    </div>
-                </form>
-
-
-            </dd>
-        </dl>
-
-
-    </div>
-</div>
 <div>
     @if (UserManager.GetUserAsync(User).Result.IsAdmin)
     {
