@@ -20,7 +20,7 @@ cd waimakua
 ```
 
 ```
-start waimakua.sln
+start kauaicapstone.sln
 ```
 
 Now, you'll be taken to Visual Studio with the project opened up. The next thing you'll want to do is to go to Tools and open the NuGet Package Manager and 
