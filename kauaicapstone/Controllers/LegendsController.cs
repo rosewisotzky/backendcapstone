@@ -1,4 +1,4 @@
-﻿
+﻿// Author: Rose Wisotzky
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +28,7 @@ namespace kauaicapstone.Controllers
         //private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Legends
+        // This method looks into the legends table and grabs the legends, including the User information, where the boolean value of IsApproved is set to true and saves that in a variable named applicationDbContext. It then returns that variable as a list passed into the Index view.
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Legend.Include(l => l.User).Where(l => l.IsApproved == true);
@@ -35,6 +36,7 @@ namespace kauaicapstone.Controllers
         }
 
         //GET: PendingLegends
+        //This method sorts through the legends in our database and selects the legends where the boolean value of IsApproved is set to false. We have the Distinct method on there so there are not any repeats. We then return the applicationDbContext that has been passed into our PendingIndex view.
         public async Task<IActionResult> PendingIndex()
         {
             var applicationDbContext = _context.Legend.Include(l => l.User).Where(l => l.IsApproved == false).Distinct();
@@ -44,20 +46,22 @@ namespace kauaicapstone.Controllers
 
         }
         //GET: Approved Legends
-
+        //This method changes the boolean value of IsApproved. We are passing in the legend id from our URL route as an argument in this method.
         public async Task<IActionResult> Approve([FromRoute] int id)
         {
+            //We are using _context to go into our database and find the legend that has the same id as the one we are passing in.
             var legend = _context.Legend.Find(id);
+            //If we can't find that legend, we will display a Not Found message.
             if (id != legend.LegendId)
             {
                 return NotFound();
             }
-
+            //ModelState is a property on the Controller class. The ModelState is a collection of key value pairs that get sent to the serer when a request is made. It will be valid if all of those pairs are true. If not, it will be invalid and the request will stop.
             if (ModelState.IsValid)
             {
                 try
                 {
-
+                    //Once the ModelState is valid, the IsApproved is changed to true and then we call Update in our database to change that value and SaveChangesAsync() to save them.
                     legend.IsApproved = true;
                     _context.Update(legend);
                     await _context.SaveChangesAsync();
@@ -81,13 +85,15 @@ namespace kauaicapstone.Controllers
 
 
         // GET: Legends/Details/5
+        //This method gets the legends and their details! We pass in the id as an argument.
         public async Task<IActionResult> Details(int? id)
         {
+            // Here we just check that the legend we are trying to target has an id--another way to check if it exists. If not, we return NotFound.
             if (id == null)
             {
                 return NotFound();
             }
-
+            //If the id is not null, we use _context to go through our database and get the legend with that id, and all of the corresponding information we want. ThenInclude allows us to go into our join table to reference the ViewLocation, which we will want when looking at our legend details.
             var legend = await _context.Legend
                 .Include(l => l.User)
                 .Include(l => l.LegendViewLocations)
@@ -102,7 +108,7 @@ namespace kauaicapstone.Controllers
             return View(legend);
         }
 
-        // GET: Legends/Create
+        // GET: Legends/Create. 
         public IActionResult Create()
         {
             LocationsLegendViewModel location = new LocationsLegendViewModel() {
