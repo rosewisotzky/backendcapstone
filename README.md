@@ -25,7 +25,7 @@ start kauaicapstone.sln
 
 Now, you'll be taken to Visual Studio with the project opened up. The next thing you'll want to do is to go to Tools and open the NuGet Package Manager and 
 select the Package Manager Console. Once that is open, type in and enter Update-Database. Once the database has been successfully updated, go to View and select
-SQL Server Object Explorer. Select your local database and click refresh. Now, for the fun part! Let's run our application. Make sure you've selected BangazonSite.
+SQL Server Object Explorer. Select your local database and click refresh. Now, for the fun part! Let's run our application.
 
 ###### You are now ready to use waimakua. 
 
